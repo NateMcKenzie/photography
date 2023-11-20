@@ -3,10 +3,9 @@
 - Default page has a few images as a gallery set up
 - Includes a link to login
 - Includes a link to sign up
-- Submit a reservation - different page, but it will sign you up (make that clear on page)
 ## Logged in:
 #### Home page:
-- Your own pictures gallery (banner)
+- Your own pictures gallery
 - Your own current reservations
     - Cancel
     - Confirmed/uncomfirmed
