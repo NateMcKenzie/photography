@@ -3,7 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.http import JsonResponse
 
-# Create your views here.
+def welcome(req):
+    return render(req, "registration/welcome.html") 
+
 def sign_up(req):
     if req.method == "POST":
         user = User.objects.create_user(

@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,59 @@
   <style>
     /* style your login pages here because the normal
       static asset flow is different now */
+    body {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      margin: 0px;
+      padding: 0px;
+      height: 100vh;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    header {
+      font-family: 'Brush Script MT', cursive;
+      background: #000;
+      background: linear-gradient(90deg, rgba(14, 11, 65, 0.801) 0%, rgba(9, 25, 121, 1) 46%, rgba(0, 102, 204, 1) 100%);
+      font-size: 4em;
+      color: white;
+      user-select: none;
+    }
+
+    .button {
+      margin: 1em;
+      background-color: #555555;
+      color: white;
+      text-decoration: none;
+      font-size: 2em;
+      width: 200px;
+    }
+
+    .bottomDiv {
+      display: flex;
+      background-color: lightgray;
+      flex: 1;
+    }
+
+    .buttonStack {
+      display: flex;
+      flex-direction: column;
+    }
+    p {
+      font-size: 2em;
+    }
   </style>
 </head>
+
 <body>
   {% block content %}
   {% endblock %}
 </body>
+
 </html>

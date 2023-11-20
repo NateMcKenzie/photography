@@ -1,0 +1,18 @@
+{% extends "registration/base.html"%}
+
+{% block content %}
+<div class="row">
+  <img src="{{asset_url}}/static/src/assets/banner1.png"/>
+  <img src="{{asset_url}}/static/src/assets/banner2.png"/>
+  <img src="{{asset_url}}/static/src/assets/banner3.png"/>
+  <img src="{{asset_url}}/static/src/assets/banner4.png"/>
+</div>
+<header>Tana with a Camera</header>
+<div class="bottomDiv">
+  <p>This is a bio for Tana. Tana likes to take picture with her camera, which is why this site exists. If you would like a picture taken, click here to login or signup so you can request a reservation.</p>
+  <div class="buttonStack">
+    <a class="button" href="/registration/sign_in/">login</a>
+    <a class="button" href="/registration/sign_up/">signup</a>
+  </div>
+</div>
+{% endblock %}
