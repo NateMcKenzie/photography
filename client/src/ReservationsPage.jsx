@@ -1,16 +1,40 @@
 import { useState } from "react";
-
+import cookie from "cookie";
 
 function ReservationsPage() {
     const [location, setLocation] = useState("");
-    const [type, setType] = useState("");
+    const [shootType, setShootType] = useState("");
     const [notes, setNotes] = useState("");
     const [openDate, setOpenDate] = useState("");
     const [closeDate, setCloseDate] = useState("");
 
+    async function createReservation(e) {
+        e.preventDefault();
+        const res = await fetch("/reservations/", {
+            method: "post",
+            credentials: "same-origin",
+            body: JSON.stringify({
+                openDate,
+                closeDate,
+                location,
+                shootType,
+                notes
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": cookie.parse(document.cookie).csrftoken
+            }
+        })
+        if(res.ok){
+            console.log("all good in the hood.")
+        } else{
+            console.log("The hood is not good today.")
+        }
+    }
+
     return (
         <>
-            <form>
+            <form onSubmit={createReservation}>
                 <label>
                     First Available Date:
                     <input type="date" value={openDate} onChange={e => setOpenDate(e.target.value)} />
@@ -25,12 +49,13 @@ function ReservationsPage() {
                 </label>
                 <label>
                     Shoot Type:
-                    <input type="text" value={type} onChange={e => setType(e.target.value)} />
+                    <input type="text" value={shootType} onChange={e => setShootType(e.target.value)} />
                 </label>
                 <label>
                     Additional notes:
                     <textarea cols="20" rows="20" value={notes} onChange={e => setNotes(e.target.value)} />
                 </label>
+                <button>Save</button>
             </form>
         </>
     )

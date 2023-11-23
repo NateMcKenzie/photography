@@ -1,8 +1,11 @@
-from django.shortcuts import render
-from django.conf  import settings
 import json
 import os
+from django.shortcuts import render
+from django.conf  import settings
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
+from .models import ReservationRequest
 
 # Load manifest when server launches
 MANIFEST = {}
@@ -22,3 +25,17 @@ def index(req):
     }
     print("Sending react app")
     return render(req, "core/index.html", context)
+
+@login_required
+def createReservation(req):
+    body = json.loads(req.body)
+    reservation = ReservationRequest(
+        user = req.user,
+        openDate = body["openDate"],
+        closeDate = body["closeDate"],
+        location = body["location"],
+        shootType = body["shootType"],
+        notes = body["notes"]
+    )
+    reservation.save()
+    return JsonResponse({"reservation":model_to_dict(reservation)})
