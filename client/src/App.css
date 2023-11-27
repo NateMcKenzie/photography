@@ -55,3 +55,24 @@ form{
   display: flex;
   flex-direction: column;
 }
+
+.reservationCard{
+  margin-top: 1em;
+  padding: 3px;
+  color: black;
+  background-color: burlywood;
+}
+
+.reservationPage{
+  display: flex;
+  flex-direction: row;
+}
+
+.reservationList{
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 12px;
+  margin-left: 6em;
+  background-color: white;
+  overflow: auto;
+}
