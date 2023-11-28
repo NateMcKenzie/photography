@@ -16,7 +16,6 @@ function ReservationsPage() {
             credentials: "same-origin",
         });
         const body = await res.json();
-        console.log(body)
         setReservationList(body.reservationList);
     }
 
@@ -44,7 +43,7 @@ function ReservationsPage() {
 
         //TODO: Input validation somewhere?
         if (res.ok) {
-            //clearFields();
+            clearFields();
             const body = await res.json();
             setReservationList(() => [...reservationList, body.reservation]);
             //TODO: Tell users that the request was a success.

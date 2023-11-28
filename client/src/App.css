@@ -76,3 +76,51 @@ form{
   background-color: white;
   overflow: auto;
 }
+
+.gallery{
+  padding-right: 1em;
+}
+
+.galleryItem{
+  width: 250px;
+  height: 250px;
+  margin: 0.3em;
+  transition: all 0.1s ease-in-out;
+}
+
+.galleryItem:hover {
+  transform: scale(1.1);
+}
+
+.expandedImage {
+  margin: 2em;
+  width: max-content;
+  height: max-content;
+}
+
+.expandedView {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 3px solid #4499BB;
+  border-radius: 35px;
+  background-color: #4499BB20;
+  padding: 2em;
+  width: min-content;
+  height: min-content;
+}
+
+.buttonLike {
+  text-decoration: none;
+  background-color: #113388;
+  color: white;
+  border: 2px solid white;
+  border-radius: 20px;
+  width: min-content;
+  padding: 1em;
+  margin: 1em;
+}
+
+.buttonLike:hover{
+  cursor: pointer;
+}
