@@ -1,3 +1,7 @@
+*{
+  user-select: none;
+}
+
 .grid {
   display: grid;
   height: 100%;
@@ -79,6 +83,9 @@ form{
 
 .gallery{
   padding-right: 1em;
+  display: flex;
+  flex-direction: column;
+  padding-top: 2em;
 }
 
 .galleryItem{
@@ -90,6 +97,19 @@ form{
 
 .galleryItem:hover {
   transform: scale(1.1);
+}
+
+.selected {
+  transform: scale(0.7);
+  border: 2px solid white;
+}
+
+.galleryBar {
+  background-color: white;
+  display: flex;
+  height: min-content;
+  padding-top: 1em;
+  margin-bottom: 1em;
 }
 
 .expandedImage {
@@ -116,9 +136,12 @@ form{
   color: white;
   border: 2px solid white;
   border-radius: 20px;
-  width: min-content;
   padding: 1em;
   margin: 1em;
+}
+
+.margined {
+  margin-top: 2em;
 }
 
 .buttonLike:hover{

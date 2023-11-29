@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 
 function HomePage() {
     const [expandedImagePath, setExpandedImagePath] = useState("");
+    //Hoisted to prevent reloading when opening single images
+    const [imageURLs, setImageURLs] = useState([]);
 
     function selectImage(e) {
         setExpandedImagePath(e.target.src)
@@ -11,6 +13,17 @@ function HomePage() {
     function closeImage(){
         setExpandedImagePath("");
     }
+
+    async function getImages() {
+        const res = await fetch("/vault/", {
+            method: "get",
+            credentials: "same-origin",
+        });
+        const body = await res.json();
+        setImageURLs(() => body.imageURLs);
+    };
+
+    useEffect(()=>{getImages()},[]);
 
     if (expandedImagePath) {
         return <>
@@ -32,7 +45,7 @@ function HomePage() {
     return (
         <>
             <div className="grid">
-                <ImageGallery selectImage={selectImage} />
+                <ImageGallery selectImage={selectImage} imageURLs={imageURLs} />
                 <div className="sideBar">
                     <h2>Side Panel</h2>
                 </div>
