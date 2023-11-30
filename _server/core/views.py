@@ -6,7 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse, HttpRequest, FileResponse,HttpResponseForbidden
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
-from .models import ReservationRequest
+from .models import ReservationRequest, ReservationConfirmed
 
 FILE_EXTENSION = ".jpg"
 VAULT_PATH = os.environ.get("VAULT_PATH","")
@@ -34,7 +34,7 @@ def index(req: HttpRequest):
 
 
 @login_required
-def createReservation(req: HttpRequest):
+def createReservationRequest(req: HttpRequest):
     if req.method == "POST":
         body = json.loads(req.body)
         reservation = ReservationRequest(
@@ -47,11 +47,19 @@ def createReservation(req: HttpRequest):
         )
         reservation.save()
         return JsonResponse({"reservation": model_to_dict(reservation)})
-    return getReservations(req)
+    return getReservationRequests(req)
+
+@login_required
+def getConfirmedReservations(req: HttpRequest):
+    reservationList = [
+        model_to_dict(reservation)
+        for reservation in req.user.reservationconfirmed_set.all()
+    ]
+    return JsonResponse({"reservationList": reservationList})
 
 
 @login_required
-def getReservations(req: HttpRequest):
+def getReservationRequests(req: HttpRequest):
     # Return a list of reservation objects
     reservationList = [
         model_to_dict(reservation)

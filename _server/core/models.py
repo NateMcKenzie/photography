@@ -10,3 +10,11 @@ class ReservationRequest(models.Model):
     location = models.TextField()
     shootType = models.TextField()
     notes = models.TextField()
+
+class ReservationConfirmed(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    location = models.TextField()
+    shootType = models.TextField()
+    notes = models.TextField()

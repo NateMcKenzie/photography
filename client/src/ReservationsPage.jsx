@@ -8,24 +8,35 @@ function ReservationsPage() {
     const [notes, setNotes] = useState("");
     const [openDate, setOpenDate] = useState("2023-11-29");
     const [closeDate, setCloseDate] = useState("2023-12-29");
-    const [reservationList, setReservationList] = useState([]);
+    const [reservationRequestList, setReservationRequestList] = useState([]);
+    const [reservationConfirmedList, setReservationConfirmedList] = useState([]);
 
-    async function getReservations() {
-        const res = await fetch("/reservations/", {
+    async function getReservationRequests() {
+        const res = await fetch("/reservationRequests/", {
             method: "get",
             credentials: "same-origin",
         });
         const body = await res.json();
-        setReservationList(body.reservationList);
+        setReservationRequestList(body.reservationList);
+    }
+
+    async function getReservationsConfirmed() {
+        const res = await fetch("/confirmedReservations/", {
+            method: "get",
+            credentials: "same-origin",
+        });
+        const body = await res.json();
+        setReservationConfirmedList(body.reservationList);
     }
 
     useEffect(() => {
-        getReservations();
+        getReservationRequests();
+        getReservationsConfirmed();
     }, []);
 
     async function createReservation(e) {
         e.preventDefault();
-        const res = await fetch("/reservations/", {
+        const res = await fetch("/reservationRequests/", {
             method: "post",
             credentials: "same-origin",
             body: JSON.stringify({
@@ -45,7 +56,7 @@ function ReservationsPage() {
         if (res.ok) {
             clearFields();
             const body = await res.json();
-            setReservationList(() => [...reservationList, body.reservation]);
+            setReservationRequestList(() => [...reservationRequestList, body.reservation]);
             //TODO: Tell users that the request was a success.
         } else {
             console.log("Error.")
@@ -88,7 +99,14 @@ function ReservationsPage() {
                     <button>Save</button>
                 </form>
                 <div className="reservationList">
-                    {reservationList.map(reservation => (
+                    <h2>Unconfirmed</h2>
+                    {reservationRequestList.map(reservation => (
+                        <ReservationCard key={reservation.id} reservation={reservation} />
+                    ))}
+                </div>
+                <div className="reservationList">
+                    <h2>Confirmed</h2>
+                    {reservationConfirmedList.map(reservation => (
                         <ReservationCard key={reservation.id} reservation={reservation} />
                     ))}
                 </div>
