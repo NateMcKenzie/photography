@@ -99,16 +99,20 @@ function ReservationsPage() {
                     <button>Save</button>
                 </form>
                 <div className="reservationList">
-                    <h2>Unconfirmed</h2>
-                    {reservationRequestList.map(reservation => (
-                        <ReservationCard key={reservation.id} reservation={reservation} />
-                    ))}
+                    <h1>Unconfirmed</h1>
+                    <div className="fillScroll">
+                        {reservationRequestList.map(reservation => (
+                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" />
+                        ))}
+                    </div>
                 </div>
                 <div className="reservationList">
-                    <h2>Confirmed</h2>
-                    {reservationConfirmedList.map(reservation => (
-                        <ReservationCard key={reservation.id} reservation={reservation} />
-                    ))}
+                    <h1>Confirmed</h1>
+                    <div className="fillScroll">
+                        {reservationConfirmedList.map(reservation => (
+                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="true" />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>

@@ -62,15 +62,20 @@ form{
 }
 
 .reservationCard{
-  margin-top: 1em;
   padding: 3px;
   color: black;
   background-color: burlywood;
+  margin-bottom: 1em;
+}
+.reservationCard h1 {
+  margin: 0;
+  background-color: red;
 }
 
 .reservationPage{
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 .reservationList{
@@ -79,7 +84,18 @@ form{
   padding: 12px;
   margin-left: 6em;
   background-color: white;
-  overflow: auto;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+}
+
+.reservationList h1 {
+  color: black;
+}
+
+.fillScroll {
+  height: 100%;
+  overflow-y: auto;
 }
 
 .gallery{
