@@ -5,6 +5,7 @@
 .grid {
   display: grid;
   height: 100%;
+  position: relative;
 }
 
 nav {
@@ -113,9 +114,25 @@ form{
 }
 
 .expandedImage {
-  margin: 2em;
-  width: max-content;
-  height: max-content;
+  margin-top: 2em;
+  width: 100%;
+  height: auto;
+}
+
+.zipOverlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.822);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 9998;
+  display: block;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  text-align: center;
+  font-size: xx-large;
+  padding-top: 5em;
 }
 
 .expandedView {
@@ -126,8 +143,6 @@ form{
   border-radius: 35px;
   background-color: #4499BB20;
   padding: 2em;
-  width: min-content;
-  height: min-content;
 }
 
 .buttonLike {

@@ -8,7 +8,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest
 
-FILE_EXTENSION = ".png"
+FILE_EXTENSION = ".jpg"
 VAULT_PATH = os.environ.get("VAULT_PATH","")
 TMP_PATH = os.environ.get("TMP_PATH","")
 
@@ -67,9 +67,11 @@ def getVault(req: HttpRequest):
     print(files)
     URLs = []
     for file in files:
-        URLs.append("/image/"+ str(user.id) + "/" + file.removesuffix(".png"))
+        URLs.append("/image/"+ str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
     return JsonResponse({"imageURLs":URLs})
 
+
+#TODO: Separate thumbnails and main pics.
 @login_required
 def getImage(req: HttpRequest, id, img):
     if(req.user.id == id):

@@ -5,9 +5,10 @@ import cookie from "cookie";
 function ImageGallery(props) {
     const [selectMode, setSelectMode] = useState(false);
     const [isImageSelected, setIsImageSelected] = useState([]);
+    const [allSelected, setAllSelected] = useState(false);
     const [shifted, setShifted] = useState(false);
     const [controlled, setControlled] = useState(false);
-    const [allSelected, setAllSelected] = useState(false);
+    const [zipInProgress, setZipInProgess] = useState(false);
 
     /*=============
     Set up effects and keylisteners
@@ -40,6 +41,7 @@ function ImageGallery(props) {
             initialized.push(false);
         }
         setIsImageSelected(initialized);
+        console.log(initialized)
 
         window.addEventListener("keydown", keyDown)
 
@@ -59,12 +61,15 @@ function ImageGallery(props) {
     }, [shifted, controlled]);
 
     //Check if all images are selected on change.
-    useEffect(() => { setAllSelected(!isImageSelected.includes(false)); }, [isImageSelected]);
+    useEffect(() => {
+        setAllSelected(!(isImageSelected.includes(false)));
+    }, [isImageSelected]);
 
     /*=============
     Define important functions
     ============ */
 
+    //TODO: Pretty nifty, but needs to be more like the standard methods.
     //Selection heavylifter
     function addToSelection(_, key) {
         if (isImageSelected.includes(true)) {
@@ -109,15 +114,24 @@ function ImageGallery(props) {
         setAllSelected(!allSelected);
     }
 
-    //TODO: Many Hi-res pictures will probably be slow to zip and download. Show user that download is working in background
+    function noneSelected() {
+        const selectedList = isImageSelected.filter((value) => value);
+        return (selectedList.length == 0);
+    }
+
     async function download() {
+        if(noneSelected()) return;
+        setZipInProgess(true);
+
         const downloadList = [];
         isImageSelected.forEach((isSelected, i) => {
             if (isSelected) {
                 downloadList.push(props.imageURLs[i]);
             }
         });
-        await fetch("/zip/", {
+        
+        //Uses somewhat of a "hacky" way to download the zip once it the server has finished preparing it. Then updates zipInProgress.
+        fetch("/zip/", {
             method: "post",
             credentials: "same-origin",
             body: JSON.stringify(downloadList),
@@ -125,8 +139,32 @@ function ImageGallery(props) {
                 "Content-Type": "application/json",
                 "X-CSRFToken": cookie.parse(document.cookie).csrftoken
             }
-        }).then((res) => res.blob())
-        .then((blob) => {const url = window.URL.createObjectURL(new Blob([blob])); const link = document.createElement('a');link.href = url; link.setAttribute('download', 'images.zip'); document.body.appendChild(link);link.click();link.parentNode.removeChild(link);});
+        }).then((res) => res.blob()).then((blob) => {
+             const url = window.URL.createObjectURL(new Blob([blob]));
+             //Create link element pointing to file.
+             const link = document.createElement('a');
+             link.href = url;
+             link.setAttribute('download', 'images.zip');
+             //Add link element to document and "click" it.
+             document.body.appendChild(link);
+             link.click();
+             //Clean up
+             link.parentNode.removeChild(link); 
+             setZipInProgess(false); 
+            });
+    }
+
+    function Overlay() {
+        if (zipInProgress) {
+            return <>
+                <div className="zipOverlay">
+                    The server is preparing your images for download.<br />
+                    Download will commence automatically in a few moments.
+                </div>
+            </>
+        } else {
+            return null;
+        }
     }
 
     /*=============
@@ -137,13 +175,14 @@ function ImageGallery(props) {
 
     return <>
 
+        <Overlay />
         <div className="gallery">
             <nav className="galleryBar">
                 <div className="margined">
                     <span className="buttonLike" onClick={toggleSelectAll}>{allSelected ? "Deselect All" : "Select All"}</span>
                     <span className="buttonLike" onClick={() => setSelectMode(!selectMode)}>{selectMode ? "Default Mode" : "Select Mode"}</span>
                 </div>
-                <span className="buttonLike" onClick={download}>Download</span>
+                <span className="buttonLike" onClick={download}>{zipInProgress ? "Zipipng" : "Download"}</span>
             </nav>
             <div>
                 {props.imageURLs.map((image, key) => (
