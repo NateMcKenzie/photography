@@ -1,11 +1,16 @@
 import json
 import os
+import zipfile
 from django.shortcuts import render
 from django.conf import settings
 from django.http import JsonResponse, HttpRequest, FileResponse,HttpResponseForbidden
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest
+
+FILE_EXTENSION = ".png"
+VAULT_PATH = os.environ.get("VAULT_PATH","")
+TMP_PATH = os.environ.get("TMP_PATH","")
 
 # Load manifest when server launches
 MANIFEST = {}
@@ -57,7 +62,7 @@ def getReservations(req: HttpRequest):
 @login_required
 def getVault(req: HttpRequest):
     user = req.user
-    path = os.path.join(os.environ.get("VAULT_PATH",""),str(user.id))
+    path = os.path.join(VAULT_PATH,str(user.id))
     files = os.listdir(path)
     print(files)
     URLs = []
@@ -68,8 +73,32 @@ def getVault(req: HttpRequest):
 @login_required
 def getImage(req: HttpRequest, id, img):
     if(req.user.id == id):
-        path = os.path.join(os.environ.get("VAULT_PATH",""),str(req.user.id),img+".png")
+        path = os.path.join(VAULT_PATH,str(req.user.id),img+FILE_EXTENSION)
         img = open(path, 'rb')
         return FileResponse(img)
     else:
         return HttpResponseForbidden('You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>')
+    
+@login_required
+def zip(req: HttpRequest):
+    #Parse request and verify access
+    body = json.loads(req.body)
+    imageRequests = []
+    for URL in body:
+        splitURL = URL.split("/")
+        if(int(splitURL[2]) != req.user.id):
+            return HttpResponseForbidden();
+        else:
+            userID = splitURL[2]
+            imageRequests.append(splitURL[3])
+
+    #Zip requested files
+    userVaultPath = os.path.join(VAULT_PATH,str(userID))
+    zippedPath = os.path.join(TMP_PATH,userID + '.zip')
+    with zipfile.ZipFile(zippedPath, 'w') as zipper:
+        for image in imageRequests:
+            imagePath = os.path.join(userVaultPath,image + FILE_EXTENSION)
+            zipper.write(imagePath, compress_type=zipfile.ZIP_DEFLATED, arcname=image+FILE_EXTENSION)
+
+    zippedFile = open(zippedPath, 'rb')
+    return FileResponse(zippedFile);

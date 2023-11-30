@@ -14,6 +14,7 @@ function HomePage() {
         setExpandedImagePath("");
     }
 
+    //TODO: Many hi-res pictures will be slow to load. Implement pages and/or tell user that images are still loading in.
     async function getImages() {
         const res = await fetch("/vault/", {
             method: "get",

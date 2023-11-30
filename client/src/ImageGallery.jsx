@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import cookie from "cookie";
+
 
 function ImageGallery(props) {
     const [selectMode, setSelectMode] = useState(false);
@@ -107,14 +109,24 @@ function ImageGallery(props) {
         setAllSelected(!allSelected);
     }
 
-    function download() {
+    //TODO: Many Hi-res pictures will probably be slow to zip and download. Show user that download is working in background
+    async function download() {
         const downloadList = [];
         isImageSelected.forEach((isSelected, i) => {
             if (isSelected) {
-                console.log("Download" + props.imageURLs[i]);
                 downloadList.push(props.imageURLs[i]);
             }
         });
+        await fetch("/zip/", {
+            method: "post",
+            credentials: "same-origin",
+            body: JSON.stringify(downloadList),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": cookie.parse(document.cookie).csrftoken
+            }
+        }).then((res) => res.blob())
+        .then((blob) => {const url = window.URL.createObjectURL(new Blob([blob])); const link = document.createElement('a');link.href = url; link.setAttribute('download', 'images.zip'); document.body.appendChild(link);link.click();link.parentNode.removeChild(link);});
     }
 
     /*=============
