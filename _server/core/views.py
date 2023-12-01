@@ -3,15 +3,21 @@ import os
 import zipfile
 from django.shortcuts import render
 from django.conf import settings
-from django.http import JsonResponse, HttpRequest, FileResponse,HttpResponseForbidden, HttpResponse
+from django.http import (
+    JsonResponse,
+    HttpRequest,
+    FileResponse,
+    HttpResponseForbidden,
+    HttpResponse,
+)
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
 FILE_EXTENSION = ".jpg"
-VAULT_PATH = os.environ.get("VAULT_PATH","")
-SAMPLE_PATH = os.environ.get("SAMPLE_PATH","")
-TMP_PATH = os.environ.get("TMP_PATH","")
+VAULT_PATH = os.environ.get("VAULT_PATH", "")
+SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
+TMP_PATH = os.environ.get("TMP_PATH", "")
 
 # Load manifest when server launches
 MANIFEST = {}
@@ -33,14 +39,17 @@ def index(req: HttpRequest):
     print("Sending react app")
     return render(req, "core/index.html", context)
 
+
 @login_required
 def deleteReservation(req: HttpRequest, id):
     reservation = ReservationRequest.objects.get(id=id)
-    if(reservation.user == req.user):
+    if reservation.user == req.user:
         reservation.delete()
         return getReservationRequests(req)
     else:
-        return HttpResponseForbidden('You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>')
+        return HttpResponseForbidden(
+            'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
+        )
 
 
 @login_required
@@ -58,6 +67,7 @@ def createReservationRequest(req: HttpRequest):
         reservation.save()
         return JsonResponse({"reservation": model_to_dict(reservation)})
     return getReservationRequests(req)
+
 
 @login_required
 def getConfirmedReservations(req: HttpRequest):
@@ -77,59 +87,69 @@ def getReservationRequests(req: HttpRequest):
     ]
     return JsonResponse({"reservationList": reservationList})
 
+
 def getSampleVault(req: HttpRequest):
     files = os.listdir(SAMPLE_PATH)
     URLs = []
     for file in files:
         URLs.append("/sample/" + file.removesuffix(FILE_EXTENSION))
-    return JsonResponse({"imageURLs":URLs})
+    return JsonResponse({"imageURLs": URLs})
+
 
 def getSample(req: HttpRequest, img):
-    path = os.path.join(SAMPLE_PATH,img+FILE_EXTENSION)
-    imageFile = open(path, 'rb')
-    return FileResponse(imageFile)
+    path = os.path.join(SAMPLE_PATH, img + FILE_EXTENSION)
+    with open(path, "rb") as imageFile:
+        return FileResponse(imageFile)
+
 
 @login_required
 def getVault(req: HttpRequest):
     user = req.user
-    path = os.path.join(VAULT_PATH,str(user.id))
+    path = os.path.join(VAULT_PATH, str(user.id))
     files = os.listdir(path)
     URLs = []
     for file in files:
-        URLs.append("/image/"+ str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
-    return JsonResponse({"imageURLs":URLs})
+        URLs.append("/image/" + str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
+    return JsonResponse({"imageURLs": URLs})
 
 
-#TODO: Separate thumbnails and main pics.
+# TODO: Separate thumbnails and main pics.
 @login_required
 def getImage(req: HttpRequest, id, img):
-    if(req.user.id == id):
-        path = os.path.join(VAULT_PATH,str(req.user.id),img+FILE_EXTENSION)
-        imageFile = open(path, 'rb')
-        return FileResponse(imageFile)
+    if req.user.id == id:
+        path = os.path.join(VAULT_PATH, str(req.user.id), img + FILE_EXTENSION)
+        with open(path, "rb") as imageFile:
+            return FileResponse(imageFile)
     else:
-        return HttpResponseForbidden('You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>')
-    
+        return HttpResponseForbidden(
+            'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
+        )
+
+
 @login_required
 def zip(req: HttpRequest):
-    #Parse request and verify access
+    # Parse request and verify access
     body = json.loads(req.body)
     imageRequests = []
     for URL in body:
         splitURL = URL.split("/")
-        if(int(splitURL[2]) != req.user.id):
-            return HttpResponseForbidden();
+        if int(splitURL[2]) != req.user.id:
+            return HttpResponseForbidden()
         else:
             userID = splitURL[2]
             imageRequests.append(splitURL[3])
 
-    #Zip requested files
-    userVaultPath = os.path.join(VAULT_PATH,str(userID))
-    zippedPath = os.path.join(TMP_PATH,userID + '.zip')
-    with zipfile.ZipFile(zippedPath, 'w') as zipper:
+    # Zip requested files
+    userVaultPath = os.path.join(VAULT_PATH, str(userID))
+    zippedPath = os.path.join(TMP_PATH, userID + ".zip")
+    with zipfile.ZipFile(zippedPath, "w") as zipper:
         for image in imageRequests:
-            imagePath = os.path.join(userVaultPath,image + FILE_EXTENSION)
-            zipper.write(imagePath, compress_type=zipfile.ZIP_DEFLATED, arcname=image+FILE_EXTENSION)
+            imagePath = os.path.join(userVaultPath, image + FILE_EXTENSION)
+            zipper.write(
+                imagePath,
+                compress_type=zipfile.ZIP_DEFLATED,
+                arcname=image + FILE_EXTENSION,
+            )
 
-    zippedFile = open(zippedPath, 'rb')
-    return FileResponse(zippedFile);
+    with open(zippedPath, "rb") as zippedFile:
+        return FileResponse(zippedFile)
