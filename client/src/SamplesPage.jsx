@@ -1,16 +1,66 @@
-function SamplesPage() {
-    return (
-        <>
-            <div className="grid">
-                <div className="gallery">
-                    <h2>Samples Content</h2>
-                </div>
-                <div className="sideBar">
-                    <h2>Side Panel</h2>
-                </div>
-            </div>
-        </>
-    )
-}
+import { useEffect, useState } from "react";
 
-export default SamplesPage;
+
+function SamplesPage() {
+
+    const [imageURLs, setImageURLs] = useState([]);
+    const [expandedImagePath, setExpandedImagePath] = useState("");
+
+
+    //TODO: Many hi-res pictures are slow to load. Pages may be necessary. Thumbnails should help.
+    async function getImages() {
+        const res = await fetch("/sampleVault/", {
+            method: "get",
+            credentials: "same-origin",
+        });
+        const body = await res.json();
+        setImageURLs(body.imageURLs);
+    };
+
+    useEffect(() => {
+        getImages()
+    }, []);
+
+    function expandImage(e) {
+        setExpandedImagePath(e.target.src);
+    }
+    function closeImage() {
+        setExpandedImagePath("");
+    }
+
+    let MainComponent = () => <><p>Obtaining data from server. Please wait.</p></>;
+    //TODO: Single-image view is not perfect with hi-res.
+    if (expandedImagePath) {
+        MainComponent = () => {
+            return <>
+                <div className="expandedView">
+                    <div>
+                        <span className="buttonLike" onClick={closeImage}>Close</span>
+                    </div>
+                    <img className="expandedImage" src={expandedImagePath} onContextMenu={(e) => e.preventDefault()}/>
+                </div>
+            </>;
+        };
+    } else if (imageURLs) {
+        MainComponent = () => {
+            return <><div>
+                {imageURLs.map((image, key) => (
+                    <img className="galleryItem" key={key} src={image} onClick={expandImage} onContextMenu={(e) => e.preventDefault()} />
+                ))}
+            </div>
+            </>};
+        }
+
+        return (
+            <>
+                <div className="reservationPage">
+                    <nav className="galleryBar">
+                        <a className="buttonLike" href="https://www.instagram.com/_.tana.with.a.camera._/">Instagram</a>
+                    </nav>
+                    <MainComponent />
+                </div>
+            </>
+        )
+    }
+
+    export default SamplesPage;

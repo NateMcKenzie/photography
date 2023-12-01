@@ -7,7 +7,7 @@ function HomePage() {
     const [imageURLs, setImageURLs] = useState([]);
 
 
-    function selectImage(e) {
+    function expandImage(e) {
         setExpandedImagePath(e.target.src)
     }
 
@@ -45,7 +45,7 @@ function HomePage() {
             </>;
         };
     } else if (imageURLs){
-        MainComponent = () => { return <><ImageGallery selectImage={selectImage} imageURLs={imageURLs} /> </>; };
+        MainComponent = () => { return <><ImageGallery expandImage={expandImage} imageURLs={imageURLs} /> </>; };
     }
     //TODO: Make side panel have folders
     return (

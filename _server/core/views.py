@@ -10,6 +10,7 @@ from .models import ReservationRequest, ReservationConfirmed
 
 FILE_EXTENSION = ".jpg"
 VAULT_PATH = os.environ.get("VAULT_PATH","")
+SAMPLE_PATH = os.environ.get("SAMPLE_PATH","")
 TMP_PATH = os.environ.get("TMP_PATH","")
 
 # Load manifest when server launches
@@ -67,12 +68,23 @@ def getReservationRequests(req: HttpRequest):
     ]
     return JsonResponse({"reservationList": reservationList})
 
+def getSampleVault(req: HttpRequest):
+    files = os.listdir(SAMPLE_PATH)
+    URLs = []
+    for file in files:
+        URLs.append("/sample/" + file.removesuffix(FILE_EXTENSION))
+    return JsonResponse({"imageURLs":URLs})
+
+def getSample(req: HttpRequest, img):
+    path = os.path.join(SAMPLE_PATH,img+FILE_EXTENSION)
+    imageFile = open(path, 'rb')
+    return FileResponse(imageFile)
+
 @login_required
 def getVault(req: HttpRequest):
     user = req.user
     path = os.path.join(VAULT_PATH,str(user.id))
     files = os.listdir(path)
-    print(files)
     URLs = []
     for file in files:
         URLs.append("/image/"+ str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
@@ -84,8 +96,8 @@ def getVault(req: HttpRequest):
 def getImage(req: HttpRequest, id, img):
     if(req.user.id == id):
         path = os.path.join(VAULT_PATH,str(req.user.id),img+FILE_EXTENSION)
-        img = open(path, 'rb')
-        return FileResponse(img)
+        imageFile = open(path, 'rb')
+        return FileResponse(imageFile)
     else:
         return HttpResponseForbidden('You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>')
     

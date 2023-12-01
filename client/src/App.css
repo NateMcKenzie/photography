@@ -103,6 +103,7 @@ form{
   display: flex;
   flex-direction: column;
   padding-top: 2em;
+  height: 100%;
 }
 
 .galleryItem{
@@ -129,12 +130,6 @@ form{
   margin-bottom: 1em;
 }
 
-.expandedImage {
-  margin-top: 2em;
-  width: 100%;
-  height: auto;
-}
-
 .zipOverlay {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.822);
@@ -151,14 +146,22 @@ form{
   padding-top: 5em;
 }
 
+.expandedImage {
+  margin-top: 2em;
+  width: 100%;
+  height: auto;
+}
+
 .expandedView {
-  display: flex;
-  flex-direction: column;
   text-align: center;
   border: 3px solid #4499BB;
   border-radius: 35px;
   background-color: #4499BB20;
   padding: 2em;
+  height: 29%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
 .buttonLike {

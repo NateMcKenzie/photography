@@ -171,7 +171,7 @@ function ImageGallery(props) {
     Create html
     ============ */
 
-    const selectImage = props.selectImage;
+    const expandImage = props.expandImage;
 
     return <>
 
@@ -186,7 +186,7 @@ function ImageGallery(props) {
             </nav>
             <div>
                 {props.imageURLs.map((image, key) => (
-                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image} onClick={selectMode ? e => addToSelection(e, key) : selectImage} />
+                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
                 ))}
             </div>
         </div>

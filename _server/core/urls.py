@@ -8,4 +8,6 @@ urlpatterns = [
     path('vault/',view=views.getVault,name="Get Vault"),
     path('image/<int:id>/<str:img>/',view=views.getImage,name="Get Image"),
     path('zip/',view=views.zip,name="Zip"),
+    path('sampleVault/',view=views.getSampleVault, name="Get Sample Vault"),
+    path('sample/<str:img>', view=views.getSample, name= "Get Sample"),
 ]
