@@ -12,7 +12,7 @@ function ReservationsPage() {
     const [reservationConfirmedList, setReservationConfirmedList] = useState([]);
 
     async function getReservationRequests() {
-        const res = await fetch("/reservationRequests/", {
+        const res = await fetch("/reservation/request/", {
             method: "get",
             credentials: "same-origin",
         });
@@ -21,7 +21,7 @@ function ReservationsPage() {
     }
 
     async function getReservationsConfirmed() {
-        const res = await fetch("/confirmedReservations/", {
+        const res = await fetch("/reservation/confirmed/", {
             method: "get",
             credentials: "same-origin",
         });
@@ -36,7 +36,7 @@ function ReservationsPage() {
 
     async function createReservation(e) {
         e.preventDefault();
-        const res = await fetch("/reservationRequests/", {
+        const res = await fetch("/reservation/request/", {
             method: "post",
             credentials: "same-origin",
             body: JSON.stringify({
@@ -102,7 +102,7 @@ function ReservationsPage() {
                     <h1>Unconfirmed</h1>
                     <div className="fillScroll">
                         {reservationRequestList.map(reservation => (
-                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" />
+                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" setReservationRequestList={setReservationRequestList} />
                         ))}
                     </div>
                 </div>

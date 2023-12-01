@@ -3,7 +3,7 @@ import os
 import zipfile
 from django.shortcuts import render
 from django.conf import settings
-from django.http import JsonResponse, HttpRequest, FileResponse,HttpResponseForbidden
+from django.http import JsonResponse, HttpRequest, FileResponse,HttpResponseForbidden, HttpResponse
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
@@ -32,6 +32,15 @@ def index(req: HttpRequest):
     }
     print("Sending react app")
     return render(req, "core/index.html", context)
+
+@login_required
+def deleteReservation(req: HttpRequest, id):
+    reservation = ReservationRequest.objects.get(id=id)
+    if(reservation.user == req.user):
+        reservation.delete()
+        return getReservationRequests(req)
+    else:
+        return HttpResponseForbidden('You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>')
 
 
 @login_required
