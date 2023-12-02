@@ -14,7 +14,8 @@ class ReservationRequest(models.Model):
 class ReservationConfirmed(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateTimeField()
+    date = models.DateField()
+    time = models.TimeField()
     location = models.TextField()
     shootType = models.TextField()
     notes = models.TextField()

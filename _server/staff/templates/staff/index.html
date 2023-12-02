@@ -1,10 +1,104 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>My Web Page</title>
+    <title>Photos Staff</title>
 </head>
+<style>
+    .rowFlex {
+        display: flex;
+        flex-direction: row;
+    }
+
+    form,
+    .columnizer {
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 12px;
+        margin-left: 6em;
+        background-color: white;
+        height: 60%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        background-color: red;
+        border: 2px solid red;
+        border-radius: 10px;
+        padding: 0.4em;
+    }
+
+    .reservationCard {
+        padding: 3px;
+        color: black;
+        border: 3px solid blue;
+    }
+
+    .reservationCard h1 {
+        margin: 0;
+        background-color: red;
+    }
+</style>
+
 <body>
-    <h1>Welcome to My Web Page</h1>
-    <p>This is a generic HTML file.</p>
+    <div class="rowFlex">
+        <div class="columnizer">
+            <h1>Pending Requests</h1>
+            {% for pending in pendingRequests %}
+            <div class="reservationCard">
+                <h1>{{pending.openDate}} - {{pending.closeDate}}</h1>
+                <p>User: {{pending.user.first_name}} ({{pending.user}})</p>
+                <p>Location: {{pending.location}}</p>
+                <p>Type: {{pending.shootType}}</p>
+                <p>Notes: {{pending.notes}}</p>
+                <button>Select</button>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="columnizer">
+            <h1>Finalizer</h1>
+            <form action="reservation/confirm/" method="post">
+                {% csrf_token %}
+                <label>User
+                    <input class="hidden" type="text" value="1" name="user" />
+                </label>
+                <label>
+                    Confirmed Date:
+                    <input type="date" value="TODO" name="date" />
+                </label>
+                <label>
+                    Confirmed Time:
+                    <input type="time" value="TODO" name="time" />
+                </label>
+                <label>
+                    Location:
+                    <input type="text" value="TODO" name="location" />
+                </label>
+                <label>
+                    Shoot Type:
+                    <input type="text" value="TODO" name="shootType" />
+                </label>
+                <label>
+                    Additional notes:
+                    <textarea cols="20" rows="20" name="notes">TODO</textarea>
+                </label>
+                <button>Save</button>
+            </form>
+        </div>
+        <div class="columnizer">
+            <h1>Confirmed Requests</h1>
+            {% for confirmed in confirmedReservations %}
+            <div class="reservationCard">
+                <h1>{{confirmed.date}} at {{confirmed.time}}</h1>
+                <p>User: {{confirmed.user.first_name}} ({{confirmed.user}})</p>
+                <p>Location: {{confirmed.location}}</p>
+                <p>Type: {{confirmed.shootType}}</p>
+                <p>Notes: {{confirmed.notes}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
+
 </html>
