@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 class ReservationRequest(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    openDate = models.DateTimeField()
-    closeDate = models.DateTimeField()
+    openDate = models.DateField()
+    closeDate = models.DateField()
     location = models.TextField()
     shootType = models.TextField()
     notes = models.TextField()

@@ -3,7 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', view=views.index, name="index"),
-    path('reservation/delete/<int:id>/',view=views.deleteReservation, name="Delete Reservation"),
+    path('reservation/delete/<int:id>/',view=views.deleteReservationRequest, name="Delete Reservation Request"),
+    path('reservation/update/<int:id>/',view=views.updateReservationRequest, name="Update Reservation Request"),
     path('reservation/request/',view=views.createReservationRequest, name="Create Reservation Request"),
     path('reservation/confirmed/',view=views.getConfirmedReservations, name = "Get Confirmed Resrvations"),
     path('vault/',view=views.getVault,name="Get Vault"),

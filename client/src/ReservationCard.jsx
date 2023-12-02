@@ -1,21 +1,32 @@
 import cookie from "cookie";
 
 //TODO: buttons and functionallity for editing / deleting requests.
-function ReservationCard(props){
+function ReservationCard(props) {
     const reservation = props.reservation;
     let timeString = ""
 
-    if(props.confirmed == "true"){
+    if (props.confirmed == "true") {
         const date = new Date(Date.parse(reservation.date));
         timeString = date.toLocaleString();
     }
-    else{
+    else {
         const openDate = new Date(Date.parse(reservation.openDate));
         const closeDate = new Date(Date.parse(reservation.closeDate));
-        timeString = openDate.toLocaleDateString() + " - " + closeDate.toLocaleDateString();
+
+        let openValues = openDate.toUTCString().split(" ")
+        openValues = openValues.slice(1, 4);
+
+        let closeValues = closeDate.toUTCString().split(" ")
+        closeValues = closeValues.slice(1, 4);
+
+        timeString = dateString(openValues) + " - " + dateString(closeValues);
     }
 
-    async function deleteReservation(){
+    function dateString(values){
+        return values[1] + " " + values[0] + ", " + values[2]
+    }
+
+    async function deleteReservation() {
         const res = await fetch("/reservation/delete/" + props.reservation.id + "/", {
             method: "post",
             credentials: "same-origin",
@@ -27,15 +38,15 @@ function ReservationCard(props){
         props.setReservationRequestList(body.reservationList);
     }
 
-    function BottomBar(){
-        if(props.confirmed){
+    function BottomBar() {
+        if (props.confirmed != "true") {
             return <>
                 <nav>
-                    <span className="buttonLike">Edit</span>
+                    <span className="buttonLike" onClick={_ => { props.updateEditID(reservation.id); }}>Edit</span>
                     <span className="buttonLike" onClick={deleteReservation}>Delete</span>
                 </nav>
             </>;
-        }else{
+        } else {
             return null;
         }
     }
@@ -46,7 +57,7 @@ function ReservationCard(props){
             <p>Location: {reservation.location}</p>
             <p>Type: {reservation.shootType}</p>
             <p>Notes: {reservation.notes}</p>
-            <BottomBar/>
+            <BottomBar />
         </div>
     </>
 }

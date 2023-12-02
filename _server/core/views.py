@@ -41,7 +41,7 @@ def index(req: HttpRequest):
 
 
 @login_required
-def deleteReservation(req: HttpRequest, id):
+def deleteReservationRequest(req: HttpRequest, id):
     reservation = ReservationRequest.objects.get(id=id)
     if reservation.user == req.user:
         reservation.delete()
@@ -67,6 +67,19 @@ def createReservationRequest(req: HttpRequest):
         reservation.save()
         return JsonResponse({"reservation": model_to_dict(reservation)})
     return getReservationRequests(req)
+
+@login_required
+def updateReservationRequest(req: HttpRequest, id):
+    body = json.loads(req.body)
+    reservation = ReservationRequest.objects.get(id=id)
+    if(req.user == reservation.user):
+        reservation.openDate=body["openDate"]
+        reservation.closeDate=body["closeDate"]
+        reservation.location=body["location"]
+        reservation.shootType=body["shootType"]
+        reservation.notes=body["notes"]
+    reservation.save()
+    return JsonResponse({"reservation": model_to_dict(reservation)})
 
 
 @login_required
@@ -98,8 +111,7 @@ def getSampleVault(req: HttpRequest):
 
 def getSample(req: HttpRequest, img):
     path = os.path.join(SAMPLE_PATH, img + FILE_EXTENSION)
-    with open(path, "rb") as imageFile:
-        return FileResponse(imageFile)
+    return FileResponse(open(path, "rb"))
 
 
 @login_required
@@ -118,8 +130,7 @@ def getVault(req: HttpRequest):
 def getImage(req: HttpRequest, id, img):
     if req.user.id == id:
         path = os.path.join(VAULT_PATH, str(req.user.id), img + FILE_EXTENSION)
-        with open(path, "rb") as imageFile:
-            return FileResponse(imageFile)
+        return FileResponse(open(path, "rb"))
     else:
         return HttpResponseForbidden(
             'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
@@ -151,5 +162,4 @@ def zip(req: HttpRequest):
                 arcname=image + FILE_EXTENSION,
             )
 
-    with open(zippedPath, "rb") as zippedFile:
-        return FileResponse(zippedFile)
+    return FileResponse(open(zippedPath, "rb"))

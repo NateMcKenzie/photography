@@ -10,6 +10,7 @@ function ReservationsPage() {
     const [closeDate, setCloseDate] = useState("2023-12-29");
     const [reservationRequestList, setReservationRequestList] = useState([]);
     const [reservationConfirmedList, setReservationConfirmedList] = useState([]);
+    const [editID, setEditID] = useState("");
 
     async function getReservationRequests() {
         const res = await fetch("/reservation/request/", {
@@ -52,16 +53,36 @@ function ReservationsPage() {
             }
         });
 
-        //TODO: Input validation somewhere?
-        if (res.ok) {
-            clearFields();
-            const body = await res.json();
-            setReservationRequestList(() => [...reservationRequestList, body.reservation]);
-            //TODO: Tell users that the request was a success.
-        } else {
-            console.log("Error.")
-            //TODO: Tell users that there was an error.
-        }
+        clearFields();
+        const body = await res.json();
+        setReservationRequestList(() => [...reservationRequestList, body.reservation]);
+    }
+
+    async function updateReservation(e) {
+        e.preventDefault();
+        const res = await fetch("/reservation/update/" + editID + "/", {
+            method: "post",
+            credentials: "same-origin",
+            body: JSON.stringify({
+                openDate,
+                closeDate,
+                location,
+                shootType,
+                notes
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": cookie.parse(document.cookie).csrftoken
+            }
+        });
+        clearFields();
+        const body = await res.json();
+
+        const newList = [...reservationRequestList];
+        const editIndex = newList.findIndex((reservation) => {return reservation.id == editID;});
+        newList[editIndex] = body.reservation;
+        setReservationRequestList(newList);
+        stopEdit();
     }
 
     function clearFields() {
@@ -72,10 +93,52 @@ function ReservationsPage() {
         setCloseDate("");
     }
 
+    function updateEditID(id) {
+        const selected = reservationRequestList.filter(
+            (reservation) => { return reservation.id == id; }
+        )[0];
+
+        const openDate = new Date(Date.parse(selected.openDate));
+        const closeDate = new Date(Date.parse(selected.closeDate));
+        //Server-Client results in the date slipping forward, correct this and get a string that the HTML element will like.
+        //openDate.setDate(openDate.getDate() - 1);
+        //closeDate.setDate(closeDate.getDate() - 1);
+        let openString = openDate.toISOString();
+        let closeString = closeDate.toISOString();
+        openString = openString.substring(0, openString.indexOf('T'));
+        closeString = closeString.substring(0, closeString.indexOf('T'));
+
+        setEditID(id);
+        //Load fields from id
+        setLocation(selected.location);
+        setShootType(selected.shootType);
+        setNotes(selected.notes);
+        setOpenDate(openString);
+        setCloseDate(closeString);
+    }
+
+    function stopEdit() {
+        setEditID("");
+        clearFields();
+    }
+
+    function EditBar() {
+        if (editID) {
+            return <>
+                <p>You are editing {editID}</p>
+                <button onClick={stopEdit}>Stop Editing</button>
+            </>
+        }
+        else {
+            return null;
+        }
+    }
+
     return (
         <>
             <div className="reservationPage">
-                <form onSubmit={createReservation}>
+                <form onSubmit={editID ? updateReservation : createReservation}>
+                    <EditBar />
                     <label>
                         First Available Date:
                         <input type="date" value={openDate} onChange={e => setOpenDate(e.target.value)} />
@@ -102,7 +165,7 @@ function ReservationsPage() {
                     <h1>Unconfirmed</h1>
                     <div className="fillScroll">
                         {reservationRequestList.map(reservation => (
-                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" setReservationRequestList={setReservationRequestList} />
+                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" setReservationRequestList={setReservationRequestList} updateEditID={updateEditID} />
                         ))}
                     </div>
                 </div>
