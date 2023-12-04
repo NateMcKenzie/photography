@@ -10,7 +10,6 @@
         flex-direction: row;
     }
 
-    form,
     .columnizer {
         border: 2px solid black;
         border-radius: 8px;
@@ -39,6 +38,25 @@
         margin: 0;
         background-color: red;
     }
+
+    .buttonLike {
+        border-radius: 8px;
+        border: 1px solid transparent;
+        padding: 0.6em 1.2em;
+        font-size: 1em;
+        font-weight: 520;
+        background-color: #1a1a1a;
+        cursor: pointer;
+        transition: border-color 0.25s;
+        color: white;
+        text-decoration: none;
+        margin-right: 1em;
+        margin-left: 1em;
+    }
+
+    .buttonLike:hover {
+        border-color: #646cff;
+    }
 </style>
 
 <body>
@@ -52,39 +70,9 @@
                 <p>Location: {{pending.location}}</p>
                 <p>Type: {{pending.shootType}}</p>
                 <p>Notes: {{pending.notes}}</p>
-                <button>Select</button>
+                <a class="buttonLike" href="finalize/{{pending.id}}">Select</a>
             </div>
             {% endfor %}
-        </div>
-        <div class="columnizer">
-            <h1>Finalizer</h1>
-            <form action="reservation/confirm/" method="post">
-                {% csrf_token %}
-                <label>User
-                    <input class="hidden" type="text" value="1" name="user" />
-                </label>
-                <label>
-                    Confirmed Date:
-                    <input type="date" value="TODO" name="date" />
-                </label>
-                <label>
-                    Confirmed Time:
-                    <input type="time" value="TODO" name="time" />
-                </label>
-                <label>
-                    Location:
-                    <input type="text" value="TODO" name="location" />
-                </label>
-                <label>
-                    Shoot Type:
-                    <input type="text" value="TODO" name="shootType" />
-                </label>
-                <label>
-                    Additional notes:
-                    <textarea cols="20" rows="20" name="notes">TODO</textarea>
-                </label>
-                <button>Save</button>
-            </form>
         </div>
         <div class="columnizer">
             <h1>Confirmed Requests</h1>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Photos Staff</title>
+</head>
+<style>
+
+    form,
+    .columnizer {
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 12px;
+        margin-left: 6em;
+        background-color: white;
+        height: 60%;
+        width: max-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        background-color: red;
+        border: 2px solid red;
+        border-radius: 10px;
+        padding: 0.4em;
+    }
+
+</style>
+
+<body>
+    <div class="columnizer">
+        <h1>Finalizer</h1>
+        <form action="/staff/reservation/confirm/" method="post">
+            {% csrf_token %}
+            <label>User
+                <input class="hidden" type="text" value={{requested.user.id}} name="user" />
+            </label>
+            <label>
+                Confirmed Date:
+                <input type="date" value={{today}} name="date" />
+            </label>
+            <label>
+                Confirmed Time: 
+                <input type="time" value={{now}} name="time" />
+            </label>
+            <label>
+                Location:
+                <input type="text" value={{requested.location}} name="location" />
+            </label>
+            <label>
+                Shoot Type:
+                <input type="text" value={{requested.shootType}} name="shootType" />
+            </label>
+            <label>
+                Additional notes:
+                <textarea cols="20" rows="20" name="notes">{{requested.notes}}</textarea>
+            </label>
+            <button>Save</button>
+        </form>
+    </div>
+</body>
+
+</html>

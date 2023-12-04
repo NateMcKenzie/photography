@@ -5,6 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.conf import settings
 from django.contrib.auth.models import User
 from core.models import ReservationConfirmed, ReservationRequest
+import datetime
 
 
 # Create your views here.
@@ -13,6 +14,14 @@ def index(req: HttpRequest):
     pendingRequests = ReservationRequest.objects.all()
     confirmedReservations = ReservationConfirmed.objects.all()
     return render(req, "staff/index.html", {"pendingRequests":pendingRequests,"confirmedReservations":confirmedReservations})
+
+@staff_member_required
+def finalize(req: HttpRequest, id):
+    requested = ReservationRequest.objects.get(id=id)
+    now = datetime.datetime.now()
+    today = f"{now.year}-{str(now.month).zfill(2)}-{str(now.day).zfill(2)}"
+    print(today)
+    return render(req, "staff/finalize.html", {"requested":requested,"today":today, "now":f"{now.hour-7}:{now.minute}:00"})
 
 
 @staff_member_required
@@ -32,8 +41,5 @@ def confirmReservation(req: HttpRequest):
         shootType=shootType,
         notes=notes
     )
-    try:
-        newReservation.save()
-    except:
-        pass
+    newReservation.save()
     return redirect("/staff/")

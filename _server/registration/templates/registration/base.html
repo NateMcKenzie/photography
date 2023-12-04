@@ -37,7 +37,7 @@
     }
 
     body {
-      background-color: #555555;
+      background-color: #f2d9b2;
       display: flex;
       flex-direction: column;
       max-height: 100vh;
@@ -54,18 +54,20 @@
 
     header {
       font-family: 'Brush Script MT', cursive;
-      background: #000;
-      background: linear-gradient(90deg, rgba(14, 11, 65, 0.801) 0%, rgba(9, 25, 121, 1) 46%, rgba(0, 102, 204, 1) 100%);
+      background: rgb(204, 152, 123);
+      background: linear-gradient(90deg, rgba(176, 112, 69, 1) 0%, rgba(242, 217, 178, 1) 40%, rgba(228, 177, 97, 0.8897759787508753) 100%);
       font-size: 4em;
-      color: white;
+      color: black;
       user-select: none;
+      text-shadow: 8px 6px 8px white;
+      text-align: center;
     }
 
-    button, 
+    button,
     .button {
       margin: 1em;
-      background-color: #404040;
-      color: white;
+      background-color: #e4b161;
+      color: black;
       text-decoration: none;
       font-size: 2em;
       width: 200px;
@@ -73,13 +75,19 @@
       border-radius: 1em;
       padding: 0.5em;
       text-align: center;
-      box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
+      box-shadow: 6px 6px 6px #B07045;
+      transition: all 0.1s ease-in-out;
+    }
+
+    .button:hover {
+      scale: 1.1;
     }
 
     .bottomDiv {
       display: flex;
-      background-color: lightgray;
+      background-color: #f2d9b2;
       flex: 1;
+      color: black;
     }
 
     .buttonStack {
@@ -89,6 +97,46 @@
 
     p {
       font-size: 2em;
+    }
+
+    form {
+      margin-top: 10em;
+      width: max-content;
+    }
+
+    .grid {
+      display: grid;
+      width: 500px;
+      height: max-content;
+      text-align: left;
+    }
+
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      width: 100%;
+    }
+
+    label {
+      font-size: 2em;
+      grid-column: 1;
+      margin-right: 0.1em;
+      color: black;
+    }
+
+    input {
+      grid-column: 2;
+      margin-top: 1em;
+      margin-left: -7em;
+      height: 2em;
+      width: 140%;
+      background-color: #b07045;
+      border: none;
+    }
+    input:focus {
+      outline: 5px solid #f3c1b4;
     }
   </style>
 </head>
