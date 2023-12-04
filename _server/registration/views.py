@@ -6,6 +6,7 @@ from django.http import JsonResponse
 def welcome(req):
     return render(req, "registration/welcome.html") 
 
+#TODO: Username in use casues crash
 def sign_up(req):
     if req.method == "POST":
         user = User.objects.create_user(
