@@ -1,14 +1,19 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseBadRequest
 from django.contrib.admin.views.decorators import staff_member_required
-from django.conf import settings
 from django.contrib.auth.models import User
 from core.models import ReservationConfirmed, ReservationRequest
+from .forms import FileUploadForm
 import datetime
 import os
+import zipfile
+
 
 UPLOAD_PATH = os.environ.get("UPLOAD_PATH", "")
+VAULT_PATH = os.environ.get("VAULT_PATH", "")
+ZIPPED_PATH = os.path.join(UPLOAD_PATH, "upload.zip")
+
 
 # Create your views here.
 @staff_member_required
@@ -21,6 +26,7 @@ def index(req: HttpRequest):
         {
             "pendingRequests": pendingRequests,
             "confirmedReservations": confirmedReservations,
+            "form": FileUploadForm(),
         },
     )
 
@@ -65,10 +71,26 @@ def confirmReservation(req: HttpRequest):
 
 @staff_member_required
 def upload(req: HttpRequest):
-    handle_uploaded_file(req.FILES["file"])
+    form = FileUploadForm(req.POST, req.FILES)
+    if form.is_valid():
+        # Access the user
+        email = form.cleaned_data["email"]
+        user = User.objects.get(email=email)
+        id = user.id
+        print(id)
+
+        # Access the file
+        handle_uploaded_file(req.FILES["file"])
+        extractPath = os.path.join(VAULT_PATH, str(id))
+        with zipfile.ZipFile(ZIPPED_PATH, "r") as zipper:
+            zipper.extractall(extractPath)
+    else:
+        return HttpResponseBadRequest("Error Uploading")
+
+    return redirect("/staff/")
 
 
 def handle_uploaded_file(f):
-    with open(os.path.join(UPLOAD_PATH, "upload.zip"), "wb+") as destination:
+    with open(ZIPPED_PATH, "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)

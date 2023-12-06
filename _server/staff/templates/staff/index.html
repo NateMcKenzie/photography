@@ -31,13 +31,10 @@
 
     <div class="columnizer">
         <h1>Upload photos</h1>
-        <form class="widthContent" action="/staff/upload/" method="post" enctype="multipart/form-data" >
+        <form method="post" enctype="multipart/form-data" action="upload/">
             {% csrf_token %}
-            <label>User email
-                <input class="hidden" type="text" value={{requested.user.id}} name="user" />
-            </label>
-            <input type="file" accept=".zip" name="file" />
-            <button>Upload</button>
+            {{ form.as_p }}
+            <button>Submit</button>
         </form>
     </div>
 </div>
