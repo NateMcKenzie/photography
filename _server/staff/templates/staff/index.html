@@ -1,92 +1,44 @@
-<!DOCTYPE html>
-<html>
+{% extends "staff/base.html"%}
 
-<head>
-    <title>Photos Staff</title>
-</head>
-<style>
-    .rowFlex {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .columnizer {
-        border: 2px solid black;
-        border-radius: 8px;
-        padding: 12px;
-        margin-left: 6em;
-        background-color: white;
-        height: 60%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    h1 {
-        background-color: red;
-        border: 2px solid red;
-        border-radius: 10px;
-        padding: 0.4em;
-    }
-
-    .reservationCard {
-        padding: 3px;
-        color: black;
-        border: 3px solid blue;
-    }
-
-    .reservationCard h1 {
-        margin: 0;
-        background-color: red;
-    }
-
-    .buttonLike {
-        border-radius: 8px;
-        border: 1px solid transparent;
-        padding: 0.6em 1.2em;
-        font-size: 1em;
-        font-weight: 520;
-        background-color: #1a1a1a;
-        cursor: pointer;
-        transition: border-color 0.25s;
-        color: white;
-        text-decoration: none;
-        margin-right: 1em;
-        margin-left: 1em;
-    }
-
-    .buttonLike:hover {
-        border-color: #646cff;
-    }
-</style>
-
-<body>
-    <div class="rowFlex">
-        <div class="columnizer">
-            <h1>Pending Requests</h1>
-            {% for pending in pendingRequests %}
-            <div class="reservationCard">
-                <h1>{{pending.openDate}} - {{pending.closeDate}}</h1>
-                <p>User: {{pending.user.first_name}} ({{pending.user}})</p>
-                <p>Location: {{pending.location}}</p>
-                <p>Type: {{pending.shootType}}</p>
-                <p>Notes: {{pending.notes}}</p>
-                <a class="buttonLike" href="finalize/{{pending.id}}">Select</a>
-            </div>
-            {% endfor %}
+{% block content %}
+<div class="rowFlex">
+    <div class="columnizer">
+        <h1>Pending Requests</h1>
+        {% for pending in pendingRequests %}
+        <div class="reservationCard">
+            <h1>{{pending.openDate}} - {{pending.closeDate}}</h1>
+            <p>User: {{pending.user.first_name}} ({{pending.user}})</p>
+            <p>Location: {{pending.location}}</p>
+            <p>Type: {{pending.shootType}}</p>
+            <p>Notes: {{pending.notes}}</p>
+            <a class="buttonLike" href="finalize/{{pending.id}}">Select</a>
         </div>
-        <div class="columnizer">
-            <h1>Confirmed Requests</h1>
-            {% for confirmed in confirmedReservations %}
-            <div class="reservationCard">
-                <h1>{{confirmed.date}} at {{confirmed.time}}</h1>
-                <p>User: {{confirmed.user.first_name}} ({{confirmed.user}})</p>
-                <p>Location: {{confirmed.location}}</p>
-                <p>Type: {{confirmed.shootType}}</p>
-                <p>Notes: {{confirmed.notes}}</p>
-            </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-</body>
 
-</html>
+    <div class="columnizer">
+        <h1>Confirmed Requests</h1>
+        {% for confirmed in confirmedReservations %}
+        <div class="reservationCard">
+            <h1>{{confirmed.date}} at {{confirmed.time}}</h1>
+            <p>User: {{confirmed.user.first_name}} ({{confirmed.user}})</p>
+            <p>Location: {{confirmed.location}}</p>
+            <p>Type: {{confirmed.shootType}}</p>
+            <p>Notes: {{confirmed.notes}}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="columnizer">
+        <h1>Upload photos</h1>
+        <form class="widthContent" action="/staff/upload/" method="post" enctype="multipart/form-data" >
+            {% csrf_token %}
+            <label>User email
+                <input class="hidden" type="text" value={{requested.user.id}} name="user" />
+            </label>
+            <input type="file" accept=".zip" name="file" />
+            <button>Upload</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
