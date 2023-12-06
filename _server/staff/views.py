@@ -76,8 +76,8 @@ def upload(req: HttpRequest):
         # Access the user
         email = form.cleaned_data["email"]
         user = User.objects.get(email=email)
+        print(user)
         id = user.id
-        print(id)
 
         # Access the file
         handle_uploaded_file(req.FILES["file"])

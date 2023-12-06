@@ -184,7 +184,7 @@ function ImageGallery(props) {
                 </div>
                 <span className="buttonLike" onClick={download}>{zipInProgress ? "Zipipng" : "Download"}</span>
             </nav>
-            <div>
+            <div className="fillScroll">
                 {props.imageURLs.map((image, key) => (
                     <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
                 ))}

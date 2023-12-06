@@ -5,7 +5,6 @@
 .grid {
   display: grid;
   height: 100%;
-  position: relative;
 }
 
 nav {
@@ -63,13 +62,13 @@ form {
 .reservationCard {
   padding: 3px;
   color: black;
-  background-color: burlywood;
+  background-color: #e4b161;
   margin-bottom: 1em;
 }
 
 .reservationCard h1 {
   margin: 0;
-  background-color: red;
+  background-color: #b07045;
 }
 
 .reservationPage {
@@ -94,8 +93,8 @@ form {
 }
 
 .fillScroll {
-  height: 100%;
-  overflow-y: auto;
+  height: auto;
+  overflow-y: scroll;
 }
 
 .gallery {
