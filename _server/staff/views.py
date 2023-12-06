@@ -69,6 +69,6 @@ def upload(req: HttpRequest):
 
 
 def handle_uploaded_file(f):
-    with open(os.path.join(TMP_PATH, "upload.zip"), "wb+") as destination:
+    with open(os.path.join(UPLOAD_PATH, "upload.zip"), "wb+") as destination:
         for chunk in f.chunks():
             destination.write(chunk)
