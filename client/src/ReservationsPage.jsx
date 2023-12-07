@@ -6,8 +6,8 @@ function ReservationsPage() {
     const [location, setLocation] = useState("");
     const [shootType, setShootType] = useState("");
     const [notes, setNotes] = useState("");
-    const [openDate, setOpenDate] = useState("2023-11-29");
-    const [closeDate, setCloseDate] = useState("2023-12-29");
+    const [openDate, setOpenDate] = useState("");
+    const [closeDate, setCloseDate] = useState("");
     const [reservationRequestList, setReservationRequestList] = useState([]);
     const [reservationConfirmedList, setReservationConfirmedList] = useState([]);
     const [editID, setEditID] = useState("");
@@ -157,8 +157,8 @@ function ReservationsPage() {
                     </label>
                     <label>
                         Additional notes:
-                        <textarea cols="20" rows="20" value={notes} onChange={e => setNotes(e.target.value)} />
                     </label>
+                    <textarea cols="20" rows="20" value={notes} onChange={e => setNotes(e.target.value)} />
                     <button>Save</button>
                 </form>
                 <div className="reservationList">

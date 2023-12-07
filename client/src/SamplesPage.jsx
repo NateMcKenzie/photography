@@ -37,30 +37,35 @@ function SamplesPage() {
                     <div>
                         <span className="buttonLike" onClick={closeImage}>Close</span>
                     </div>
-                    <img className="expandedImage" src={expandedImagePath} onContextMenu={(e) => e.preventDefault()}/>
+                    <img className="expandedImage" src={expandedImagePath} onContextMenu={(e) => e.preventDefault()} />
                 </div>
             </>;
         };
     } else if (imageURLs) {
         MainComponent = () => {
-            return <><div>
-                {imageURLs.map((image, key) => (
-                    <img className="galleryItem" key={key} src={image} onClick={expandImage} onContextMenu={(e) => e.preventDefault()} />
-                ))}
-            </div>
-            </>};
-        }
+            return <><div className="gallery">
+                <div className="fillScroll">
 
-        return (
-            <>
-                <div className="reservationPage">
-                    <nav className="galleryBar">
-                        <a className="buttonLike" href="https://www.instagram.com/_.tana.with.a.camera._/">Instagram</a>
-                    </nav>
-                    <MainComponent />
+                    {imageURLs.map((image, key) => (
+                        <img className="galleryItem" key={key} src={image} onClick={expandImage} onContextMenu={(e) => e.preventDefault()} />
+                    ))}
                 </div>
+            </div>
             </>
-        )
+        };
     }
 
-    export default SamplesPage;
+    return (
+        <>
+            <div className="samplePage">
+                <nav className="galleryBar">
+                    <a className="buttonLike" href="https://www.instagram.com/_.tana.with.a.camera._/">Instagram</a>
+                </nav>
+                <MainComponent />
+                
+            </div>
+        </>
+    )
+}
+
+export default SamplesPage;
