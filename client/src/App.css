@@ -22,6 +22,10 @@ nav {
   justify-content: space-between;
 }
 
+h1 {
+  color: black;
+}
+
 .sideBar {
   background-color: #ddd;
   grid-column: 12;
@@ -42,7 +46,7 @@ button,
   color: black;
   border: 2px solid black;
   text-decoration: none;
-  margin-right: 1em;
+  margin-top: 1em;
   margin-left: 1em;
 }
 
@@ -81,9 +85,9 @@ form {
   border-radius: 8px;
   padding: 12px;
   margin-left: 6em;
-  height: 60%;
   display: flex;
   flex-direction: column;
+  height: max-content;
   background-color: #b07045;
 
 }
@@ -123,9 +127,9 @@ form {
   padding: 12px;
   margin-left: 6em;
   background-color: #f4ab7b;
-  height: 60%;
   display: flex;
   flex-direction: column;
+  max-height: 65%;
 }
 
 .reservationList h1 {
@@ -142,7 +146,7 @@ form {
   flex-direction: column;
   height: 60%;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
 
 .galleryBar {

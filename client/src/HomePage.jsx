@@ -44,8 +44,11 @@ function HomePage() {
                 </div>
             </>;
         };
-    } else if (imageURLs){
+    } else if (imageURLs.length > 0){
+        console.log("Image URLs present: " + imageURLs)
         MainComponent = () => { return <><ImageGallery expandImage={expandImage} imageURLs={imageURLs} /> </>; };
+    } else{
+        MainComponent = () => { return <><h1>You do not have any photos yet. Visit the reservations page to make a reservation.</h1></>}
     }
     //TODO: Make side panel have folders
     return (

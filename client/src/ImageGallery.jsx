@@ -41,7 +41,6 @@ function ImageGallery(props) {
             initialized.push(false);
         }
         setIsImageSelected(initialized);
-        console.log(initialized)
 
         window.addEventListener("keydown", keyDown)
 
