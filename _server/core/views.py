@@ -55,6 +55,7 @@ def deleteReservationRequest(req: HttpRequest, id):
 def createReservationRequest(req: HttpRequest):
     if req.method == "POST":
         body = json.loads(req.body)
+        print(body["notes"])
         reservation = ReservationRequest(
             user=req.user,
             openDate=body["openDate"],

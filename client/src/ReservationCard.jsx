@@ -51,12 +51,26 @@ function ReservationCard(props) {
         }
     }
 
+    function BrokenNotes() {
+        let brokenNotes = reservation.notes.split("\n");
+        console.log(brokenNotes)
+        return <>
+            <p>Notes: </p>
+            <div class="notes">
+                {brokenNotes.map(line => (
+                    <>{line}<br /></>
+                ))}
+            </div>
+        </>
+
+    }
+
     return <>
         <div className="reservationCard">
             <h1>{timeString}</h1>
             <p>Location: {reservation.location}</p>
             <p>Type: {reservation.shootType}</p>
-            <p>Notes: {reservation.notes}</p>
+            <BrokenNotes />
             <BottomBar />
         </div>
     </>
