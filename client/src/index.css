@@ -26,6 +26,7 @@ body {
   /* Firefox scroll bar*/
   scrollbar-color: #5aa9e6 #0000;
   scrollbar-width: thin;
+  
 
   /* Chrome/Safari scroll bar */
   ::-webkit-scrollbar {
