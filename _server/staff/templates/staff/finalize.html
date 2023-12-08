@@ -3,7 +3,7 @@
 {% block content %}
 <div class="columnizer widthContent">
     <h1>Finalizer</h1>
-    <form class="widthContent" action="/staff/reservation/confirm/" method="post">
+    <form class="widthContent" action="/staff/reservation/confirm/{{requested.id}}/" method="post">
         {% csrf_token %}
         <label>User
             <input class="hidden" type="text" value={{requested.user.id}} name="user" />

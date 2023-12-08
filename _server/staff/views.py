@@ -49,7 +49,7 @@ def finalize(req: HttpRequest, id):
 
 
 @staff_member_required
-def confirmReservation(req: HttpRequest):
+def confirmReservation(req: HttpRequest, id):
     user = req.POST.get("user")
     user = User.objects.get(id=user)
     date = req.POST.get("date")
@@ -66,6 +66,8 @@ def confirmReservation(req: HttpRequest):
         notes=notes,
     )
     newReservation.save()
+    oldReservation = ReservationRequest.objects.get(id=id)
+    oldReservation.delete()
     return redirect("/staff/")
 
 
