@@ -7,7 +7,7 @@ function ReservationCard(props) {
 
     if (props.confirmed == "true") {
         const date = new Date(Date.parse(reservation.date));
-        timeString = date.toLocaleString();
+        timeString = date.toLocaleString([], { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
     }
     else {
         const openDate = new Date(Date.parse(reservation.openDate));
@@ -22,7 +22,7 @@ function ReservationCard(props) {
         timeString = dateString(openValues) + " - " + dateString(closeValues);
     }
 
-    function dateString(values){
+    function dateString(values) {
         return values[1] + " " + values[0] + ", " + values[2]
     }
 
