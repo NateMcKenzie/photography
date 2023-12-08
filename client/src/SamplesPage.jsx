@@ -29,7 +29,6 @@ function SamplesPage() {
     }
 
     let MainComponent = () => <><p>Obtaining data from server. Please wait.</p></>;
-    //TODO: Single-image view is not perfect with hi-res.
     if (expandedImagePath) {
         MainComponent = () => {
             return <>

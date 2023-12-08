@@ -1,6 +1,5 @@
 import cookie from "cookie";
 
-//TODO: buttons and functionallity for editing / deleting requests.
 function ReservationCard(props) {
     const reservation = props.reservation;
     let timeString = ""

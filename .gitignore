@@ -1,2 +1,2 @@
-_server/core/vaults
-_server/core/tmp
+_server/core/vaults/**
+_server/core/tmp/**
