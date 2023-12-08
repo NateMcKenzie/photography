@@ -36,7 +36,6 @@ def index(req: HttpRequest):
         "js_file": "" if settings.DEBUG else MANIFEST["src/main.ts"]["file"],
         "css_file": "" if settings.DEBUG else MANIFEST["src/main.ts"]["css"][0],
     }
-    print("Sending react app")
     return render(req, "core/index.html", context)
 
 

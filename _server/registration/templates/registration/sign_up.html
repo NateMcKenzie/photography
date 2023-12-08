@@ -7,20 +7,24 @@
     <label>
       First Name
     </label>
-    <input type="text" name="first_name">
+    <input type="text" name="first_name" value={{first_name}}>
     <label>
       Last Name
     </label>
-    <input type="text" name="last_name">
+    <input type="text" name="last_name" value={{last_name}}>
     <label>
       Email
     </label>
-    <input type="email" name="email">
+    <input type="email" name="email" value={{email}}>
     <label>
       Password
     </label>
-    <input type="password" name="password">
+    <input type="password" name="password" value="{{password}}">
   </div>
-    <button class="button">Create Account</button>
+  <button class="button">Create Account</button>
+  {% if message %}
+  <h1>{{message}}</h1>
+  {% endif %}
 </form>
+
 {% endblock %}

@@ -10,7 +10,7 @@
 .samplePage {
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  height: 100%;
 }
 
 nav {
@@ -129,7 +129,7 @@ form {
   background-color: #f4ab7b;
   display: flex;
   flex-direction: column;
-  max-height: 65%;
+  max-height: 52%;
 }
 
 .reservationList h1 {
@@ -202,10 +202,9 @@ form {
 .expandedView {
   text-align: center;
   padding: 2em;
-  height: 90%;
-  width: 100%;
   display: flex;
   flex-direction: column;
+  height: 45%;
   overflow-y: scroll;
 }
 
