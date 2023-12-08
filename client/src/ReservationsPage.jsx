@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import cookie from "cookie";
-import ReservationCard from "./ReservationCard"
+import ReservationList from "./ReservationList"
 
 function ReservationsPage() {
     const [location, setLocation] = useState("");
@@ -79,7 +79,7 @@ function ReservationsPage() {
         const body = await res.json();
 
         const newList = [...reservationRequestList];
-        const editIndex = newList.findIndex((reservation) => {return reservation.id == editID;});
+        const editIndex = newList.findIndex((reservation) => { return reservation.id == editID; });
         newList[editIndex] = body.reservation;
         setReservationRequestList(newList);
         stopEdit();
@@ -125,7 +125,6 @@ function ReservationsPage() {
     function EditBar() {
         if (editID) {
             return <>
-                <p>You are editing {editID}</p>
                 <button onClick={stopEdit}>Stop Editing</button>
             </>
         }
@@ -161,22 +160,8 @@ function ReservationsPage() {
                     <textarea cols="20" rows="20" value={notes} onChange={e => setNotes(e.target.value)} />
                     <button>Save</button>
                 </form>
-                <div className="reservationList">
-                    <h1>Unconfirmed</h1>
-                    <div className="fillScroll">
-                        {reservationRequestList.map(reservation => (
-                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="false" setReservationRequestList={setReservationRequestList} updateEditID={updateEditID} />
-                        ))}
-                    </div>
-                </div>
-                <div className="reservationList">
-                    <h1>Confirmed</h1>
-                    <div className="fillScroll">
-                        {reservationConfirmedList.map(reservation => (
-                            <ReservationCard key={reservation.id} reservation={reservation} confirmed="true" />
-                        ))}
-                    </div>
-                </div>
+                <ReservationList list={reservationRequestList} setReservationRequestList={setReservationRequestList} updateEditID={updateEditID} confirmed="false" />
+                <ReservationList list={reservationConfirmedList} confirmed="true" />
             </div>
         </>
     )

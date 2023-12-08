@@ -117,7 +117,7 @@ form {
 .reservationPage {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 85vh;
   margin-top: 2em;
 }
 
@@ -129,7 +129,7 @@ form {
   background-color: #f4ab7b;
   display: flex;
   flex-direction: column;
-  max-height: 52%;
+  min-height: 50%;
 }
 
 .reservationList h1 {
