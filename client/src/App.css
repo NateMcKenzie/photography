@@ -44,16 +44,15 @@ button:hover,
 }
 
 .fillScroll {
-  height: 200%;
+  height: 120%;
   overflow-y: scroll;
 }
 
 .gallery {
-  display: flex;
-  flex-direction: column;
-  height: 33%;
-  width: 100%;
-  overflow-y: hidden;
+  display: block;
+  overflow-y: scroll;
+  max-height: min-content;
+  border: 2px solid red;
 }
 
 .galleryBar {
