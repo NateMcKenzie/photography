@@ -172,6 +172,7 @@ function ImageGallery(props) {
 
     const expandImage = props.expandImage;
 
+    //TODO: For the life of me, I can't get the galleryBar to stay put without ruining the scrolling.
     return <>
 
         <Overlay />
