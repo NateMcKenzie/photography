@@ -2,18 +2,6 @@
   user-select: none;
 }
 
-.grid {
-  display: grid;
-  overflow-y: hidden;
-  height: 200%;
-}
-
-.samplePage {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 nav {
   background-color: #f2d9b2;
   color: white;
@@ -25,11 +13,6 @@ nav {
 
 h1 {
   color: black;
-}
-
-.sideBar {
-  background-color: #ddd;
-  grid-column: 12;
 }
 
 .buttonSpan {
@@ -58,96 +41,6 @@ button:hover,
 
 .linkHolder {
   margin-top: 0.5em;
-}
-
-
-input,
-textarea {
-  grid-column: 2;
-  margin-top: 1em;
-  height: 2em;
-  background-color: #e4b161;
-  border: none;
-  color: white;
-  padding: 3px;
-}
-
-textarea {
-  height: 10em;
-  resize: none;
-}
-
-input:focus,
-textarea:focus {
-  outline: 5px solid #f3c1b4;
-}
-
-form {
-  border: 2px solid #f3c1b4;
-  border-radius: 8px;
-  padding: 12px;
-  margin-left: 6em;
-  display: flex;
-  flex-direction: column;
-  height: max-content;
-  background-color: #b07045;
-
-}
-
-.reservationCard {
-  padding: 0;
-  padding-bottom: 0.5em;
-  color: black;
-  background-color: #e4b161;
-  margin-bottom: 1em;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.reservationCard h1 {
-  margin: 0;
-  background-color: #b07045;
-  padding: 0.5em;
-}
-
-.reservationCard p {
-  margin-left: 1em;
-}
-
-.reservationCard nav {
-  margin-bottom: -0.5em;
-}
-
-.reservationPage {
-  display: flex;
-  flex-direction: row;
-  height: 85vh;
-  margin-top: 2em;
-  align-items: center;
-}
-
-.reservationList {
-  border: 2px solid black;
-  border-radius: 8px;
-  padding: 12px;
-  margin-left: 6em;
-  background-color: #f4ab7b;
-  display: flex;
-  flex-direction: column;
-  min-height: 30%;
-  max-height: 100%;
-}
-
-.reservationList h1 {
-  color: black;
-}
-
-.notes {
-  margin: 1em;
-  border: 2px dashed #b07045;
-  border-radius: 15px;
-  background-color: #eac385;
-  padding: 0.5em;
 }
 
 .fillScroll {
@@ -183,30 +76,6 @@ form {
   transform: scale(1.1);
 }
 
-.selected {
-  transform: scale(0.7);
-  border: 8px solid #eea796;
-  border-radius: 8px;
-}
-
-
-
-.zipOverlay {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.822);
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 9998;
-  display: block;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  text-align: center;
-  font-size: xx-large;
-  padding-top: 5em;
-}
-
 .expandedImage {
   margin-top: 2em;
   width: 100%;
@@ -233,10 +102,6 @@ form {
   text-align: center;
   box-shadow: 3px 3px 3px #f2d9b2AA;
   margin-right: 1em;
-}
-
-.margined {
-  margin-top: 0.5em;
 }
 
 .buttonLike:hover {

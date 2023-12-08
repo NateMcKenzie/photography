@@ -56,7 +56,7 @@ function ReservationCard(props) {
         console.log(brokenNotes)
         return <>
             <p>Notes: </p>
-            <div class="notes">
+            <div className="notes">
                 {brokenNotes.map(line => (
                     <>{line}<br /></>
                 ))}
