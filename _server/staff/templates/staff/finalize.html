@@ -10,19 +10,19 @@
         </label>
         <label>
             Confirmed Date:
-            <input type="date" value={{today}} name="date" />
+            <input type="date" name="date" />
         </label>
         <label>
             Confirmed Time:
-            <input type="time" value={{now}} name="time" />
+            <input type="time" name="time" />
         </label>
         <label>
             Location:
-            <input type="text" value={{requested.location}} name="location" />
+            <input type="text" value="{{requested.location}}" name="location" />
         </label>
         <label>
             Shoot Type:
-            <input type="text" value={{requested.shootType}} name="shootType" />
+            <input type="text" value="{{requested.shootType}}" name="shootType" />
         </label>
         <label>
             Additional notes:
@@ -30,5 +30,8 @@
         </label>
         <button class="buttonLike">Save</button>
     </form>
+    {% if message %}
+        <h1>{{message}}</h1>
+    {% endif %}
 </div>
 {% endblock %}

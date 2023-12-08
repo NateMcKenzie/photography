@@ -34,41 +34,52 @@ def index(req: HttpRequest):
 @staff_member_required
 def finalize(req: HttpRequest, id):
     requested = ReservationRequest.objects.get(id=id)
-    now = datetime.datetime.now()
-    today = f"{now.year}-{str(now.month).zfill(2)}-{str(now.day).zfill(2)}"
-    print(today)
     return render(
         req,
         "staff/finalize.html",
         {
             "requested": requested,
-            "today": today,
-            "now": f"{now.hour-7}:{now.minute}:00",
         },
     )
 
 
 @staff_member_required
 def confirmReservation(req: HttpRequest, id):
-    user = req.POST.get("user")
-    user = User.objects.get(id=user)
+    userID = req.POST.get("user")
+    if not User.objects.filter(id=userID):
+        requested = ReservationRequest.objects.get(id=id)
+        return render(
+            req,
+            "staff/finalize.html",
+            {"requested": requested, "message": "User not found"},
+        )
+    user = User.objects.get(id=userID)
+
     date = req.POST.get("date")
     time = req.POST.get("time")
     location = req.POST.get("location")
     shootType = req.POST.get("shootType")
     notes = req.POST.get("notes")
-    newReservation = ReservationConfirmed(
-        user=user,
-        date=date,
-        time=time,
-        location=location,
-        shootType=shootType,
-        notes=notes,
+
+    if date and time and location and shootType and notes:
+        newReservation = ReservationConfirmed(
+            user=user,
+            date=date,
+            time=time,
+            location=location,
+            shootType=shootType,
+            notes=notes,
+        )
+        newReservation.save()
+        oldReservation = ReservationRequest.objects.get(id=id)
+        oldReservation.delete()
+        return redirect("/staff/")
+    requested = ReservationRequest.objects.get(id=id)
+    return render(
+        req,
+        "staff/finalize.html",
+        {"requested": requested, "message": "Please fill all fields"},
     )
-    newReservation.save()
-    oldReservation = ReservationRequest.objects.get(id=id)
-    oldReservation.delete()
-    return redirect("/staff/")
 
 
 @staff_member_required
