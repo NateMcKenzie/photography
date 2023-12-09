@@ -1,6 +1,7 @@
 import json
 import os
 import zipfile
+from PIL import Image
 from django.shortcuts import render
 from django.conf import settings
 from django.http import (
@@ -15,6 +16,7 @@ from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
 FILE_EXTENSION = ".jpg"
+THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH","")
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
 SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
 TMP_PATH = os.environ.get("TMP_PATH", "")
@@ -124,6 +126,23 @@ def getVault(req: HttpRequest):
         URLs.append("/image/" + str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
     return JsonResponse({"imageURLs": URLs})
 
+@login_required
+def get_thumbnail(req, id, img):
+    if req.user.id == id:
+        vault = os.path.join(VAULT_PATH, str(req.user.id))
+        thumb = os.path.join(vault, THUMBNAIL_PATH, img + FILE_EXTENSION)
+        if os.path.exists(thumb):
+            return FileResponse(open(thumb, "rb"))
+        else:
+            full = os.path.join(vault, img + FILE_EXTENSION)
+            img = Image.open(full)
+            img.thumbnail((300,300))
+            img.save(fp=thumb)
+            return FileResponse(open(thumb, "rb"))
+    else:
+        return HttpResponseForbidden(
+            'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
+        )
 
 # TODO: Separate thumbnails and main pics.
 @login_required

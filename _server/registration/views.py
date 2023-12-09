@@ -5,6 +5,7 @@ from django.http import JsonResponse
 import os
 
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
+THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH", "")
 
 def welcome(req):
     return render(req, "registration/welcome.html")
@@ -91,3 +92,4 @@ def logout_view(request):
 def create_vault(user):
     path = os.path.join(VAULT_PATH,str(user.id))
     os.mkdir(path)
+    os.mkdir(os.path.join(path,THUMBNAIL_PATH))

@@ -9,6 +9,7 @@ urlpatterns = [
     path('reservation/confirmed/',view=views.getConfirmedReservations, name = "Get Confirmed Resrvations"),
     path('vault/',view=views.getVault,name="Get Vault"),
     path('image/<int:id>/<str:img>/',view=views.getImage,name="Get Image"),
+    path('image/<int:id>/<str:img>/thumb/',view=views.get_thumbnail,name="Get Thumbnail"),
     path('zip/',view=views.zip,name="Zip"),
     path('sampleVault/',view=views.getSampleVault, name="Get Sample Vault"),
     path('sample/<str:img>', view=views.getSample, name= "Get Sample"),

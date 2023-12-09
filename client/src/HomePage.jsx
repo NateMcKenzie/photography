@@ -8,7 +8,9 @@ function HomePage() {
 
 
     function expandImage(e) {
-        setExpandedImagePath(e.target.src)
+        const source = e.target.src
+        const truncated = e.target.src.substring(0,source.length - 6)
+        setExpandedImagePath(truncated)
     }
 
     function closeImage() {

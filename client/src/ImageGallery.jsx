@@ -186,7 +186,7 @@ function ImageGallery(props) {
             </nav>
             <div className="fillScroll">
                 {props.imageURLs.map((image, key) => (
-                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
+                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
                 ))}
             </div>
         </div>
