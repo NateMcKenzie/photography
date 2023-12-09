@@ -81,6 +81,11 @@ def confirmReservation(req: HttpRequest, id):
         {"requested": requested, "message": "Please fill all fields"},
     )
 
+@staff_member_required
+def deleteConfirmedReservation(req: HttpRequest, id):
+    reservation = ReservationConfirmed.objects.get(id=id)
+    reservation.delete()
+    return redirect("/staff/")
 
 @staff_member_required
 def upload(req: HttpRequest):
