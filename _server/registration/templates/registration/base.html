@@ -9,6 +9,7 @@
   <style>
     /* style your login pages here because the normal
       static asset flow is different now */
+    @import url('https://fonts.googleapis.com/css2?family=Cookie&display=swap');
 
     :root {
       font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -25,7 +26,25 @@
       -moz-osx-font-smoothing: grayscale;
       -webkit-text-size-adjust: 100%;
 
+      /* Firefox scroll bar*/
+      scrollbar-color: #5aa9e6 #0000;
+      scrollbar-width: thin;
+
+
+      /* Chrome/Safari scroll bar */
+      ::-webkit-scrollbar {
+        height: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background-color: #5aa9e6;
+      }
+
+      ::-webkit-scrollbar-track {
+        background-color: #0000;
+      }
     }
+
 
     html,
     body {
@@ -60,10 +79,10 @@
     }
 
     header {
-      font-family: 'Brush Script MT', cursive;
+      font-family: 'Cookie', cursive;
       background: rgb(204, 152, 123);
       background: linear-gradient(90deg, rgba(176, 112, 69, 1) 0%, rgba(242, 217, 178, 1) 40%, rgba(228, 177, 97, 0.8897759787508753) 100%);
-      font-size: 4em;
+      font-size: 5em;
       color: black;
       user-select: none;
       text-shadow: 8px 6px 8px white;
@@ -104,6 +123,7 @@
 
     p {
       font-size: 2em;
+      padding: 2em;
     }
 
     form {

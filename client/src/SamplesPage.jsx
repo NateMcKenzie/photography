@@ -32,7 +32,7 @@ function SamplesPage() {
     if (expandedImagePath) {
         MainComponent = () => {
             return <>
-                <div className="expandedView">
+                <div className="expandedView samples">
                     <div>
                         <span className="buttonLike" onClick={closeImage}>Close</span>
                     </div>

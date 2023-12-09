@@ -36,7 +36,7 @@ function HomePage() {
     if (expandedImagePath) {
         MainComponent = () => {
             return <>
-                <div className="expandedView">
+                <div className="expandedView home">
                     <div>
                         <a className="buttonLike" download="true" href={expandedImagePath} >Save</a>
                         <span className="buttonLike" onClick={closeImage}>Close</span>
