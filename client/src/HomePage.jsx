@@ -51,14 +51,12 @@ function HomePage() {
     } else{
         MainComponent = () => { return <><h1>You do not have any photos yet. Visit the reservations page to make a reservation.</h1></>}
     }
-    //TODO: Make side panel have folders
+    //TODO: Make side panel which has folders
     return (
         <>
             <div className="grid">
                 <MainComponent />
-                <div className="sideBar">
-                    <h2>Side Panel</h2>
-                </div>
+
             </div>
         </>
     )

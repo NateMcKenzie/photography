@@ -9,7 +9,6 @@ from django.http import (
     HttpRequest,
     FileResponse,
     HttpResponseForbidden,
-    HttpResponse,
 )
 from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
@@ -183,3 +182,6 @@ def zip(req: HttpRequest):
             )
 
     return FileResponse(open(zippedPath, "rb"))
+
+def getIcon(req: HttpRequest):
+    return FileResponse((open("camera.svg","rb")))

@@ -13,4 +13,5 @@ urlpatterns = [
     path('zip/',view=views.zip,name="Zip"),
     path('sampleVault/',view=views.getSampleVault, name="Get Sample Vault"),
     path('sample/<str:img>', view=views.getSample, name= "Get Sample"),
+    path("icon/", view=views.getIcon, name="Icon"),
 ]
