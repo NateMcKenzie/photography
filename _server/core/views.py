@@ -121,6 +121,7 @@ def getVault(req: HttpRequest):
     user = req.user
     path = os.path.join(VAULT_PATH, str(user.id))
     files = os.listdir(path)
+    files.remove(THUMBNAIL_PATH)
     URLs = []
     for file in files:
         URLs.append("/image/" + str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
