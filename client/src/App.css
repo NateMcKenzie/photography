@@ -78,6 +78,8 @@ button:hover,
   margin-top: 2em;
   width: 100%;
   height: auto;
+  overflow-y: scroll;
+  display: block;
 }
 
 .expandedView {
@@ -88,7 +90,7 @@ button:hover,
 }
 
 .home {
-  height: 14%;
+  max-height: 13%;
 }
 
 .samples {
