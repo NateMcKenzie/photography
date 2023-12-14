@@ -172,7 +172,6 @@ function ImageGallery(props) {
 
     const expandImage = props.expandImage;
 
-    //TODO: For the life of me, I can't get the galleryBar to stay put without ruining the scrolling.
     return <>
 
         <Overlay />
@@ -184,7 +183,7 @@ function ImageGallery(props) {
                 </div>
                 <span className="buttonLike" onClick={download}>{zipInProgress ? "Zipipng" : "Download"}</span>
             </nav>
-            <div className="fillScroll">
+            <div className="galleryScroll">
                 {props.imageURLs.map((image, key) => (
                     <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
                 ))}

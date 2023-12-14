@@ -6,7 +6,13 @@ function ReservationCard(props) {
 
     if (props.confirmed == "true") {
         const date = new Date(Date.parse(reservation.date));
-        timeString = date.toLocaleString([], { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        date.setDate(date.getDate()+1)
+        timeString = date.toDateString();
+        const timeSplits = reservation.time.split(":");
+        let hour = timeSplits[0];
+        let pm = hour > 12;
+        if (pm) hour -= 12;
+        timeString = timeString.concat(", ", hour, ":", timeSplits[1], pm?"PM":"AM");
     }
     else {
         const openDate = new Date(Date.parse(reservation.openDate));
@@ -52,7 +58,6 @@ function ReservationCard(props) {
 
     function BrokenNotes() {
         let brokenNotes = reservation.notes.split("\n");
-        console.log(brokenNotes)
         return <>
             <p>Notes: </p>
             <div className="notes">

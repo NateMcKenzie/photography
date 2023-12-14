@@ -14,7 +14,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
-FILE_EXTENSION = ".jpg"
+FILE_EXTENSION = ".JPG"
 THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH","")
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
 SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
@@ -106,7 +106,7 @@ def getSampleVault(req: HttpRequest):
     files = os.listdir(SAMPLE_PATH)
     URLs = []
     for file in files:
-        URLs.append("/sample/" + file.removesuffix(FILE_EXTENSION))
+        URLs.append("/sample/" + os.path.splitext(file)[0])
     return JsonResponse({"imageURLs": URLs})
 
 
@@ -123,7 +123,7 @@ def getVault(req: HttpRequest):
     files.remove(THUMBNAIL_PATH[:-1])
     URLs = []
     for file in files:
-        URLs.append("/image/" + str(user.id) + "/" + file.removesuffix(FILE_EXTENSION))
+        URLs.append("/image/" + str(user.id) + "/" + os.path.splitext(file)[0])
     return JsonResponse({"imageURLs": URLs})
 
 @login_required
@@ -144,7 +144,6 @@ def get_thumbnail(req, id, img):
             'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
         )
 
-# TODO: Separate thumbnails and main pics.
 @login_required
 def getImage(req: HttpRequest, id, img):
     if req.user.id == id:

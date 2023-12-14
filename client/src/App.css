@@ -50,8 +50,12 @@ button:hover,
 
 .gallery {
   display: block;
+}
+
+.galleryScroll {
+  display: block;
   overflow-y: scroll;
-  max-height: min-content;
+  max-height: 750px;
 }
 
 .galleryBar {
@@ -90,7 +94,7 @@ button:hover,
 }
 
 .home {
-  max-height: 13%;
+  max-height: 800px;
 }
 
 .samples {

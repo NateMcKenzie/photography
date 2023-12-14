@@ -7,7 +7,6 @@ function SamplesPage() {
     const [expandedImagePath, setExpandedImagePath] = useState("");
 
 
-    //TODO: Many hi-res pictures are slow to load. Pages may be necessary. Thumbnails should help.
     async function getImages() {
         const res = await fetch("/sampleVault/", {
             method: "get",
