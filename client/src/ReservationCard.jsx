@@ -8,15 +8,15 @@ function ReservationCard(props) {
     if (props.confirmed == "true") {
         //Parse the date
         const date = new Date(Date.parse(reservation.date));
-        date.setDate(date.getDate()+1)
+        date.setDate(date.getDate() + 1)
         heading = date.toDateString();
-        
+
         //Add the time
         const timeSplits = reservation.time.split(":");
         let hour = timeSplits[0];
         let pm = hour > 12;
         if (pm) hour -= 12;
-        heading = heading.concat(", ", hour, ":", timeSplits[1], pm?"PM":"AM");
+        heading = heading.concat(", ", hour, ":", timeSplits[1], pm ? "PM" : "AM");
     }
     else {
         //Parse both dates and compose into one string
@@ -74,29 +74,12 @@ function ReservationCard(props) {
         }
     }
 
-    /**
-     * Inserts html line breaks so that the notes display correctly.
-     * 
-     * @returns {JSX.Element} The JSX element representing the broken notes.
-     */
-    function BrokenNotes() {
-        let brokenNotes = reservation.notes.split("\n");
-        return <>
-            <p>Notes: </p>
-            <div className="notes">
-                {brokenNotes.map(line => (
-                    <>{line}<br /></>
-                ))}
-            </div>
-        </>
-    }
-
     return <>
         <div className="reservationCard">
             <h1>{heading}</h1>
             <p>Location: {reservation.location}</p>
             <p>Type: {reservation.shootType}</p>
-            <BrokenNotes />
+            <p className="notes">{reservation.notes}</p>
             <BottomBar />
         </div>
     </>
