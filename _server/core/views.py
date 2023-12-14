@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
 FILE_EXTENSION = ".JPG"
-THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH","")
+THUMBNAIL_PATH = "thumbnails/"
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
 SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
 TMP_PATH = os.environ.get("TMP_PATH", "")
@@ -41,11 +41,11 @@ def index(req: HttpRequest):
 
 
 @login_required
-def deleteReservationRequest(req: HttpRequest, id):
+def delete_reservation_request(req: HttpRequest, id):
     reservation = ReservationRequest.objects.get(id=id)
     if reservation.user == req.user:
         reservation.delete()
-        return getReservationRequests(req)
+        return get_reservation_requests(req)
     else:
         return HttpResponseForbidden(
             'You are not logged in as this user. You may log in <a href="/registration/sign_in">here</a>'
@@ -53,7 +53,7 @@ def deleteReservationRequest(req: HttpRequest, id):
 
 
 @login_required
-def createReservationRequest(req: HttpRequest):
+def create_reservation_request(req: HttpRequest):
     if req.method == "POST":
         body = json.loads(req.body)
         print(body["notes"])
@@ -67,10 +67,10 @@ def createReservationRequest(req: HttpRequest):
         )
         reservation.save()
         return JsonResponse({"reservation": model_to_dict(reservation)})
-    return getReservationRequests(req)
+    return get_reservation_requests(req)
 
 @login_required
-def updateReservationRequest(req: HttpRequest, id):
+def update_reservation_request(req: HttpRequest, id):
     body = json.loads(req.body)
     reservation = ReservationRequest.objects.get(id=id)
     if(req.user == reservation.user):
@@ -84,7 +84,7 @@ def updateReservationRequest(req: HttpRequest, id):
 
 
 @login_required
-def getConfirmedReservations(req: HttpRequest):
+def get_confirmed_reservations(req: HttpRequest):
     reservationList = [
         model_to_dict(reservation)
         for reservation in req.user.reservationconfirmed_set.all()
@@ -93,7 +93,7 @@ def getConfirmedReservations(req: HttpRequest):
 
 
 @login_required
-def getReservationRequests(req: HttpRequest):
+def get_reservation_requests(req: HttpRequest):
     # Return a list of reservation objects
     reservationList = [
         model_to_dict(reservation)
@@ -102,7 +102,7 @@ def getReservationRequests(req: HttpRequest):
     return JsonResponse({"reservationList": reservationList})
 
 
-def getSampleVault(req: HttpRequest):
+def get_sample_vault(req: HttpRequest):
     files = os.listdir(SAMPLE_PATH)
     URLs = []
     for file in files:
@@ -116,7 +116,7 @@ def getSample(req: HttpRequest, img):
 
 
 @login_required
-def getVault(req: HttpRequest):
+def get_vault(req: HttpRequest):
     user = req.user
     path = os.path.join(VAULT_PATH, str(user.id))
     files = os.listdir(path)
@@ -145,7 +145,7 @@ def get_thumbnail(req, id, img):
         )
 
 @login_required
-def getImage(req: HttpRequest, id, img):
+def get_image(req: HttpRequest, id, img):
     if req.user.id == id:
         path = os.path.join(VAULT_PATH, str(req.user.id), img + FILE_EXTENSION)
         return FileResponse(open(path, "rb"))
@@ -159,28 +159,28 @@ def getImage(req: HttpRequest, id, img):
 def zip(req: HttpRequest):
     # Parse request and verify access
     body = json.loads(req.body)
-    imageRequests = []
+    image_requests = []
     for URL in body:
-        splitURL = URL.split("/")
-        if int(splitURL[2]) != req.user.id:
+        split_URL = URL.split("/")
+        if int(split_URL[2]) != req.user.id:
             return HttpResponseForbidden()
         else:
-            userID = splitURL[2]
-            imageRequests.append(splitURL[3])
+            userID = split_URL[2]
+            image_requests.append(split_URL[3])
 
     # Zip requested files
-    userVaultPath = os.path.join(VAULT_PATH, str(userID))
-    zippedPath = os.path.join(TMP_PATH, userID + ".zip")
-    with zipfile.ZipFile(zippedPath, "w") as zipper:
-        for image in imageRequests:
-            imagePath = os.path.join(userVaultPath, image + FILE_EXTENSION)
+    user_vault_path = os.path.join(VAULT_PATH, str(userID))
+    zipped_path = os.path.join(TMP_PATH, userID + ".zip")
+    with zipfile.ZipFile(zipped_path, "w") as zipper:
+        for image in image_requests:
+            image_path = os.path.join(user_vault_path, image + FILE_EXTENSION)
             zipper.write(
-                imagePath,
+                image_path,
                 compress_type=zipfile.ZIP_DEFLATED,
                 arcname=image + FILE_EXTENSION,
             )
 
-    return FileResponse(open(zippedPath, "rb"))
+    return FileResponse(open(zipped_path, "rb"))
 
-def getIcon(req: HttpRequest):
+def get_icon(req: HttpRequest):
     return FileResponse((open("camera.svg","rb")))
