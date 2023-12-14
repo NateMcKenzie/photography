@@ -2,6 +2,10 @@ import ReservationCard from "./ReservationCard"
 
 function ReservationList(props) {
 
+    /**
+     * Renders the list of reservations, or a message indicating there are none.
+     * @returns {JSX.Element} The rendered content.
+     */
     function Content() {
         if (props.list.length > 0) {
             return <>

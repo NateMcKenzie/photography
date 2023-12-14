@@ -12,29 +12,45 @@ function ReservationsPage() {
     const [reservationConfirmedList, setReservationConfirmedList] = useState([]);
     const [editID, setEditID] = useState("");
 
-    async function getReservationRequests() {
-        const res = await fetch("/reservation/request/", {
-            method: "get",
-            credentials: "same-origin",
-        });
-        const body = await res.json();
-        setReservationRequestList(body.reservationList);
-    }
-
-    async function getReservationsConfirmed() {
-        const res = await fetch("/reservation/confirmed/", {
-            method: "get",
-            credentials: "same-origin",
-        });
-        const body = await res.json();
-        setReservationConfirmedList(body.reservationList);
-    }
-
+    // Initial set-up on first load
     useEffect(() => {
         getReservationRequests();
         getReservationsConfirmed();
     }, []);
 
+    /**
+     * Fetches reservation requests from the server.
+     * @returns {Promise<void>}
+     */
+    async function getReservationRequests() {
+        const res = await fetch("/reservation/request/", {
+            method: "get",
+            credentials: "same-origin",
+        });
+
+        const body = await res.json();
+        setReservationRequestList(body.reservationList);
+    }
+
+    /**
+     * Fetches confirmed reservations from the server.
+     * @returns {Promise<void>}
+     */
+    async function getReservationsConfirmed() {
+        const res = await fetch("/reservation/confirmed/", {
+            method: "get",
+            credentials: "same-origin",
+        });
+
+        const body = await res.json();
+        setReservationConfirmedList(body.reservationList);
+    }
+
+    /**
+     * Creates a reservation by sending a POST request to the server.
+     * @param {Event} e - The event object.
+     * @returns {Promise<void>} - A promise that resolves when the reservation is created.
+     */
     async function createReservation(e) {
         e.preventDefault();
         const res = await fetch("/reservation/request/", {
@@ -53,11 +69,17 @@ function ReservationsPage() {
             }
         });
 
-        clearFields();
+        //Update state
         const body = await res.json();
+        clearFields();
         setReservationRequestList(() => [...reservationRequestList, body.reservation]);
     }
 
+    /**
+     * Updates a reservation by sending a POST request to the server.
+     * @param {Event} e - The event object.
+     * @returns {Promise<void>} - A promise that resolves when the reservation is updated.
+     */
     async function updateReservation(e) {
         e.preventDefault();
         const res = await fetch("/reservation/update/" + editID + "/", {
@@ -75,8 +97,10 @@ function ReservationsPage() {
                 "X-CSRFToken": cookie.parse(document.cookie).csrftoken
             }
         });
-        clearFields();
+
+        //Update state
         const body = await res.json();
+        clearFields();
 
         const newList = [...reservationRequestList];
         const editIndex = newList.findIndex((reservation) => { return reservation.id == editID; });
@@ -85,6 +109,9 @@ function ReservationsPage() {
         stopEdit();
     }
 
+    /**
+     * Clears input fields.
+     */
     function clearFields() {
         setLocation("");
         setShootType("");
@@ -93,22 +120,25 @@ function ReservationsPage() {
         setCloseDate("");
     }
 
+    /**
+     * Updates the edit ID and loads the corresponding fields from the reservation with the given ID.
+     * @param {number} id - The ID of the reservation to update.
+     */
     function updateEditID(id) {
         const selected = reservationRequestList.filter(
             (reservation) => { return reservation.id == id; }
         )[0];
 
+        //Parse the dates to load into the input fields.
         const openDate = new Date(Date.parse(selected.openDate));
         const closeDate = new Date(Date.parse(selected.closeDate));
-        //Server-Client results in the date slipping forward, correct this and get a string that the HTML element will like.
-        //openDate.setDate(openDate.getDate() - 1);
-        //closeDate.setDate(closeDate.getDate() - 1);
         let openString = openDate.toISOString();
         let closeString = closeDate.toISOString();
         openString = openString.substring(0, openString.indexOf('T'));
         closeString = closeString.substring(0, closeString.indexOf('T'));
 
         setEditID(id);
+
         //Load fields from id
         setLocation(selected.location);
         setShootType(selected.shootType);
@@ -117,11 +147,18 @@ function ReservationsPage() {
         setCloseDate(closeString);
     }
 
+    /**
+     * Stops the editing process by resetting the edit ID and clearing the fields.
+     */
     function stopEdit() {
         setEditID("");
         clearFields();
     }
 
+    /**
+     * Renders the EditBar component only if editing is in progress.
+     * @returns {JSX.Element|null} The rendered EditBar component or null if editID is falsy.
+     */
     function EditBar() {
         if (editID) {
             return <>

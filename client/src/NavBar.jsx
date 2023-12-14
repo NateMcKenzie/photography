@@ -3,14 +3,11 @@ import { Link } from "react-router-dom"
 
 async function logout() {
   const res = await fetch("/registration/logout/", {
-    credentials: "same-origin", // include cookies!
+    credentials: "same-origin",
   });
 
   if (res.ok) {
-    // navigate away from the single page app!
     window.location = "/registration/sign_in/";
-  } else {
-    // handle logout failed!
   }
 }
 

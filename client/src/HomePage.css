@@ -33,4 +33,8 @@
 .sideBar {
     background-color: #ddd;
     grid-column: 12;
-  }
+}
+
+.home {
+    max-height: 800px;
+}

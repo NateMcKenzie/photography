@@ -93,14 +93,6 @@ button:hover,
   overflow-y: scroll;
 }
 
-.home {
-  max-height: 800px;
-}
-
-.samples {
-  height: 45%;
-}
-
 .buttonLike {
   background-color: #e4b161;
   color: black;

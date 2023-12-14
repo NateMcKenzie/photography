@@ -68,9 +68,14 @@ function ImageGallery(props) {
     Define important functions
     ============ */
 
-    //TODO: Pretty nifty, but needs to be more like the standard methods.
-    //Selection heavylifter
+    //TODO: Works well enough, but not like a true shift selection.
+    /**
+     * Handle selecting and deselecting images. Approximating what one would expect when using shfit and control.
+     * @param {object} _ - Click event not used by function.
+     * @param {number} key - The key of the image to be added or removed from the selection.
+     */
     function addToSelection(_, key) {
+        console.log(typeof _)
         if (isImageSelected.includes(true)) {
             if (isImageSelected[key]) {
                 if (shifted) {
@@ -107,19 +112,29 @@ function ImageGallery(props) {
         }
     }
 
+    /**
+     * Toggles the selection of all images in the gallery.
+     */
     function toggleSelectAll() {
         const newIndices = isImageSelected.fill(!allSelected);
         setIsImageSelected(newIndices);
         setAllSelected(!allSelected);
     }
 
+    /**
+     * Checks if any image is selected.
+     * @returns {boolean} True if no image is selected, false otherwise.
+     */
     function noneSelected() {
         const selectedList = isImageSelected.filter((value) => value);
         return (selectedList.length == 0);
     }
 
+    /**
+     * Downloads the selected images as a zip file.
+     */
     async function download() {
-        if(noneSelected()) return;
+        if (noneSelected()) return;
         setZipInProgess(true);
 
         const downloadList = [];
@@ -128,7 +143,7 @@ function ImageGallery(props) {
                 downloadList.push(props.imageURLs[i]);
             }
         });
-        
+
         //Uses somewhat of a "hacky" way to download the zip once it the server has finished preparing it. Then updates zipInProgress.
         fetch("/zip/", {
             method: "post",
@@ -139,20 +154,24 @@ function ImageGallery(props) {
                 "X-CSRFToken": cookie.parse(document.cookie).csrftoken
             }
         }).then((res) => res.blob()).then((blob) => {
-             const url = window.URL.createObjectURL(new Blob([blob]));
-             //Create link element pointing to file.
-             const link = document.createElement('a');
-             link.href = url;
-             link.setAttribute('download', 'images.zip');
-             //Add link element to document and "click" it.
-             document.body.appendChild(link);
-             link.click();
-             //Clean up
-             link.parentNode.removeChild(link); 
-             setZipInProgess(false); 
-            });
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            //Create link element pointing to file.
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'images.zip');
+            //Add link element to document and "click" it.
+            document.body.appendChild(link);
+            link.click();
+            //Clean up
+            link.parentNode.removeChild(link);
+            setZipInProgess(false);
+        });
     }
 
+    /**
+     * If server is preparing the zip file, return an overlay message indicating as much.
+     * @returns {JSX.Element|null} The overlay message or null if zipInProgress is false.
+     */
     function Overlay() {
         if (zipInProgress) {
             return <>
@@ -167,10 +186,8 @@ function ImageGallery(props) {
     }
 
     /*=============
-    Create html
+    Compose return statement
     ============ */
-
-    const expandImage = props.expandImage;
 
     return <>
 
@@ -185,7 +202,7 @@ function ImageGallery(props) {
             </nav>
             <div className="galleryScroll">
                 {props.imageURLs.map((image, key) => (
-                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : expandImage} />
+                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : props.expandImage} />
                 ))}
             </div>
         </div>
