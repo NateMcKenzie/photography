@@ -1,15 +1,10 @@
 # 2610 Django + Vite Starting Point
-This project serves as a starting point you to use as a starting point for Django applications that use Vite as the asset server for development. You are welcome to us this project for all of your assignments beginning with Module 5.
+This project is a fork of a starting point provided by Joseph Ditton [here](https://github.com/dittonjs/2610DjangoViteStarter.git). This starting point featured what was necessary to use Django as a backend and Vite running React for the frontend.
 
-## Strategy
-This application is a hybrid MPA and SPA. It reuses all of the login stuff that we did at the end of module 3 - there is a separate page for signup/signin. Once a user is logged in they are redirected to the / view which then renders the SPA application created using React and Vite.
-
-## Creating a new application
-1. Clone the repo `git clone git@github.com:dittonjs/2610DjangoViteStarter.git <your-new-project-name>`. Replace `<your-new-project-name>` with the name you want give to your project.
-2. Open the pyproject.toml file and change the `name` property. You should use `-` to separate words in your name for this property.
+## The Idea
+This app is designed for a photographer to share photos with clients. The client can log in and submit a request for a photography session. The photographer can log in and see this request on the staff page. From here, they can arrange an actual meeting time, and update the website to reflect this. The client can see the appointment. Once the photos have been taken and edited, the photographer can then upload them to the site through the staff portal. Now the client can see their photos from their side of the website. They can select and download as many or as few of their own photos as they'd like.
 
 ## Initial Setup
-1. Change the name property in the `pyproject.toml` file to be something unique to your project.
 1. In the root directory, install the python dependencies `poetry install`
 2. In the `client` directory, install the javascript dependencies `npm install`
 3. In the `_server` directory, create a new file called `.env`
@@ -20,4 +15,4 @@ This application is a hybrid MPA and SPA. It reuses all of the login stuff that 
 ## Running the appliction
 1. In the `client` directory run `npm run dev`
 2. In the `_server` directory (with your poetry env activated) run `python manage.py runserver`
-3. Visit your application at `http://localhost:8000`
+3. Visit the application at `http://localhost:8000`
