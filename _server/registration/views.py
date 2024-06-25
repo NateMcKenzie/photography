@@ -5,7 +5,7 @@ from django.http import JsonResponse
 import os
 
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
-THUMBNAIL_PATH = "thumbnails/"
+THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH", "thumbnails/")
 
 def welcome(req):
     return render(req, "registration/welcome.html")
