@@ -1,7 +1,7 @@
 {% extends "registration/base.html"%}
 
 {% block content %}
-<form class="centered" action="/registration/sign_in/" method="post">
+<form action="/registration/sign_in/" method="post">
   {% csrf_token %}
   <div class="grid">
     <label>Email</label>
@@ -10,13 +10,12 @@
     <label>Password</label>
     <input type="password" name="password">
   </div>
-  <div>
-    <button class="button">Sign In</button>
-    <a class="button" href="/registration/sign_up/">Create New Account</a>
+  <div class="buttonStack">
+    <button>Sign In</button>
+    <a href="/registration/sign_up/">Create New Account</a>
   </div>
-  {% if message %}
-    <h1>{{message}}</h1>
-  {% endif %}
-
 </form>
+{% if message %}
+  <h1>{{message}}</h1>
+{% endif %}
 {% endblock %}
