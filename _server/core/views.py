@@ -14,7 +14,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
-FILE_EXTENSION = ".JPG"
+FILE_EXTENSION = ".jpg"
 THUMBNAIL_PATH = "thumbnails/"
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
 SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
@@ -56,7 +56,6 @@ def delete_reservation_request(req: HttpRequest, id):
 def create_reservation_request(req: HttpRequest):
     if req.method == "POST":
         body = json.loads(req.body)
-        print(body["notes"])
         reservation = ReservationRequest(
             user=req.user,
             openDate=body["openDate"],

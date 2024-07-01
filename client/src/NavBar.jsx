@@ -1,3 +1,4 @@
+import './NavBar.css'
 import { Link } from "react-router-dom"
 
 
@@ -13,13 +14,11 @@ async function logout() {
 
 function NavBar() {
   return (<>
-    <nav>
-      <div className="linkHolder">
+    <nav className="bottomNav">
         <Link className="link" to="/">Home</Link>
         <Link className="link" to="/reservations">Reservations</Link>
         <Link className="link" to="/samples">Samples</Link>
-      </div>
-      <button onClick={logout}>Logout</button>
+        <span class="link material-symbols-outlined" onClick={logout}> logout </span>
     </nav>
   </>)
 }
