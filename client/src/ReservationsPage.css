@@ -2,7 +2,7 @@ input,
 textarea {
     grid-column: 2;
     margin-top: 1em;
-    height: 2em;
+    height: 1em;
     background-color: #e4b161;
     border: none;
     color: white;
@@ -10,7 +10,7 @@ textarea {
 }
 
 textarea {
-    height: 10em;
+    height: 3em;
     resize: none;
 }
 
@@ -22,17 +22,20 @@ textarea:focus {
 form {
     border: 2px solid #f3c1b4;
     border-radius: 8px;
-    padding: 12px;
-    margin-left: 6em;
+    padding: 1%;
     display: flex;
     flex-direction: column;
-    height: max-content;
     background-color: #b07045;
+    width: 95%;
+    height: max-content;
+}
 
+form > button {
+    margin-top: 1%;
+    height: 2em;
 }
 
 .notes {
-    margin: 1em;
     border: 2px dashed #b07045;
     border-radius: 15px;
     background-color: #eac385;
@@ -44,43 +47,34 @@ form {
     padding-bottom: 0.5em;
     color: black;
     background-color: #e4b161;
-    margin-bottom: 1em;
     border-radius: 20px;
     overflow: hidden;
 }
 
 .reservationCard h1 {
-    margin: 0;
     background-color: #b07045;
     padding: 0.5em;
 }
 
-.reservationCard p {
-    margin-left: 1em;
-}
-
-.reservationCard nav {
-    margin-bottom: -0.5em;
-}
-
 .reservationPage {
+    padding: 2% 1%;
     display: flex;
-    flex-direction: row;
-    height: 85vh;
-    margin-top: 2em;
+    flex-direction: column;
+    gap: 2%;
+    height: 89%;
     align-items: center;
+    overflow-y: scroll;
 }
 
 .reservationList {
     border: 2px solid black;
     border-radius: 8px;
-    padding: 12px;
-    margin-left: 6em;
+    padding: 1%;
     background-color: #f4ab7b;
     display: flex;
     flex-direction: column;
-    min-height: 30%;
-    max-height: 100%;
+    width: 95%;
+    height: max-content;
 }
 
 .reservationList h1 {
