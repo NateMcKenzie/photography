@@ -54,13 +54,12 @@ function SamplesPage() {
         };
     } else if (imageURLs) {
         MainComponent = () => {
-            return <><div className="gallery">
-                <div className="fillScroll">
+            return <>
+                <div className="galleryScroll">
 
                     {imageURLs.map((image, key) => (
                         <img className="galleryItem" key={key} src={image} onClick={expandImage} onContextMenu={(e) => e.preventDefault()} />
                     ))}
-                </div>
             </div>
             </>
         };
