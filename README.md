@@ -1,4 +1,18 @@
-# 2610 Django + Vite Starting Point
+# Revamp
+Note: I'm now working on this personally, leaving the original README below until I feel it's adequately replaced.
+
+## Packages
+Poetry is apparently horrible now. I've decided it's easier to just use `venv` for the Django server:
+```
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+# do work
+deactivate
+```
+
+
+# CS 2610 Django + Vite Starting Point
 This project serves as a starting point you to use as a starting point for Django applications that use Vite as the asset server for development. You are welcome to us this project for all of your assignments beginning with Module 5.
 
 ## Strategy
