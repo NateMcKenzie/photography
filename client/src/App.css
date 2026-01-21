@@ -5,10 +5,9 @@
 nav {
   background-color: #f2d9b2;
   color: white;
-  padding: 10px;
   text-align: center;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 h1 {
@@ -17,6 +16,7 @@ h1 {
 
 p {
   white-space: pre-wrap;
+  color: black;
 }
 
 .buttonSpan {
@@ -25,8 +25,11 @@ p {
 
 button,
 .link {
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  padding: 0 1.2em;
   font-weight: 520;
   background-color: #e4b161;
   cursor: pointer;
@@ -34,8 +37,8 @@ button,
   color: black;
   border: 2px solid black;
   text-decoration: none;
-  margin-top: 1em;
-  margin-left: 1em;
+  height: 70%;
+  margin: auto auto;
 }
 
 button:hover,
@@ -43,38 +46,35 @@ button:hover,
   border-color: #b07045;
 }
 
-.linkHolder {
-  margin-top: 0.5em;
-}
-
 .fillScroll {
   height: 120%;
   overflow-y: scroll;
 }
 
-.gallery {
-  display: block;
-}
-
 .galleryScroll {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+  width: 98%;
+  height: 85%;
+  margin-top: 1%;
+  margin-left: 1%;
   overflow-y: scroll;
-  max-height: 750px;
+  overflow-x: hidden;
 }
 
 .galleryBar {
   background-color: #b07045;
   display: flex;
-  height: min-content;
+  height: 5%;
   margin-top: 0px;
-  margin-bottom: 1em;
-  align-content: center;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 .galleryItem {
-  width: 250px;
-  height: 250px;
-  margin: 0.3em;
+  width: 100%;
+  height: auto;
   transition: all 0.1s ease-in-out;
 }
 
@@ -83,8 +83,8 @@ button:hover,
 }
 
 .expandedImage {
-  margin-top: 2em;
-  width: 100%;
+  margin: 1% 1%;
+  width: 98%;
   height: auto;
   overflow-y: scroll;
   display: block;
@@ -92,24 +92,29 @@ button:hover,
 
 .expandedView {
   text-align: center;
-  padding: 2em;
   display: block;
   overflow-y: scroll;
 }
 
 .buttonLike {
+  display: block;
   background-color: #e4b161;
   color: black;
   text-decoration: none;
   font-size: 1em;
+  font-weight: 700;
   border: 2px solid black;
   border-radius: 1em;
   padding: 0.5em;
   text-align: center;
   box-shadow: 3px 3px 3px #f2d9b2AA;
-  margin-right: 1em;
+  height: min-content;
 }
 
 .buttonLike:hover {
   cursor: pointer;
+}
+
+.stackButton {
+    margin: 3% 20%;
 }

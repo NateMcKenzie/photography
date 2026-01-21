@@ -192,19 +192,15 @@ function ImageGallery(props) {
     return <>
 
         <Overlay />
-        <div className="gallery">
-            <nav className="galleryBar">
-                <div className="margined">
-                    <span className="buttonLike" onClick={toggleSelectAll}>{allSelected ? "Deselect All" : "Select All"}</span>
-                    <span className="buttonLike" onClick={() => setSelectMode(!selectMode)}>{selectMode ? "Default Mode" : "Select Mode"}</span>
-                </div>
-                <span className="buttonLike" onClick={download}>{zipInProgress ? "Zipipng" : "Download"}</span>
-            </nav>
-            <div className="galleryScroll">
-                {props.imageURLs.map((image, key) => (
-                    <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : props.expandImage} />
-                ))}
-            </div>
+        <nav className="galleryBar">
+                <span className="buttonLike" onClick={toggleSelectAll}>{allSelected ? "Deselect All" : "Select All"}</span>
+                <span className="buttonLike" onClick={() => setSelectMode(!selectMode)}>{selectMode ? "Default Mode" : "Select Mode"}</span>
+            <span className="buttonLike" onClick={download}>{zipInProgress ? "Zipipng" : "Download"}</span>
+        </nav>
+        <div className="galleryScroll">
+            {props.imageURLs.map((image, key) => (
+                <img className={"galleryItem" + (isImageSelected[key] ? " selected" : "")} key={key} src={image + "/thumb/"} onClick={selectMode ? e => addToSelection(e, key) : props.expandImage} />
+            ))}
         </div>
     </>
 

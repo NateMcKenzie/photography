@@ -47,7 +47,6 @@
       }
     }
 
-
     html,
     body {
       margin: 0;
@@ -57,20 +56,31 @@
     }
 
     body {
+      min-height: 100vh;
       background-color: #f2d9b2;
       display: flex;
       flex-direction: column;
-      max-height: 100vh;
-      overflow-y: hidden;
     }
 
     h1 {
+      position: fixed;
+      bottom: 20%;
+      left: 50%;
+      width: clamp(fit-content, 35%, 50%);
+      transform: translate(-50%, 0);
       background-color: #e05e3e;
       border: 6px solid #b07045;
       border-radius: 18px;
       padding: 0.4em;
-      margin-top: 0;
+      text-align: center;
     }
+    @media screen and not (min-height: 600px) {
+        h1 {
+            bottom: 0;
+            font-size: 1em;
+            border: 2px solid #b07045;
+        }
+   }
 
     .row {
       display: flex;
@@ -92,13 +102,15 @@
     }
 
     button,
-    .button {
-      margin: 1em;
+    a {
+      display: block;
+      margin-top: 1em;
+      margin-left: auto;
+      margin-right: auto;
       background-color: #e4b161;
       color: black;
       text-decoration: none;
       font-size: 2em;
-      width: 200px;
       border: 2px solid black;
       border-radius: 1em;
       padding: 0.5em;
@@ -111,60 +123,70 @@
       scale: 1.1;
     }
 
-    .bottomDiv {
+    .buttonRow {
       display: flex;
-      background-color: #f2d9b2;
-      flex: 1;
-      color: black;
+      justify-content: center;
+      gap: 5%;
+      width: 100%;
     }
 
     .buttonStack {
       display: flex;
       flex-direction: column;
+      align-content: center;
+      justify-content: center;
     }
 
     p {
       font-family: 'Rokkitt', serif;
-      font-size: 2em;
+      font-size: 1.2em;
       padding: 2em;
-    }
-
-    form {
-      margin-top: 10em;
-      width: max-content;
+      color: black;
     }
 
     .grid {
+      margin-top: 1em;
       display: grid;
-      width: 500px;
-      height: max-content;
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 5px;
+      width: min-content;
       text-align: left;
     }
 
-    .centered {
+    form {
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 100%;
+      height: 100%;
+    }
+
+    .imageDisplay {
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 5px;
+        width: fit-content;
+        margin: auto;
+        background-color: inherit;
+    }
+
+    img {
+        width: 100%;
+        height: auto;
     }
 
     label {
-      font-size: 2em;
       grid-column: 1;
-      margin-right: 0.1em;
       color: black;
     }
 
     input {
       grid-column: 2;
-      margin-top: 1em;
-      margin-left: -7em;
-      height: 2em;
-      width: 140%;
       background-color: #b07045;
       border: none;
       color: white;
-      padding: 3px;
     }
 
     input:focus {

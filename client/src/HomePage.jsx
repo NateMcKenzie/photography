@@ -49,11 +49,12 @@ function HomePage() {
         MainComponent = () => {
             return <>
                 <div className="expandedView home">
-                    <div>
-                        <a className="buttonLike" download="true" href={expandedImagePath} >Save</a>
-                        <span className="buttonLike" onClick={closeImage}>Close</span>
-                    </div>
                     <img className="expandedImage" src={expandedImagePath} />
+                    <div>
+                        <a className="buttonLike stackButton" download="true" href={expandedImagePath} >Save</a>
+                        <span className="buttonLike stackButton" onClick={closeImage}>Close</span>
+                    </div>
+                    <p>Use "Open image in new tab" in your browser for even more detail.</p>
                 </div>
             </>;
         };
@@ -66,10 +67,7 @@ function HomePage() {
     //TODO: Make side panel which has folders
     return (
         <>
-            <div className="grid">
-                <MainComponent />
-
-            </div>
+            <MainComponent />
         </>
     )
 }
