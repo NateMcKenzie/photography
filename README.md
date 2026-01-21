@@ -22,6 +22,9 @@ This application is a hybrid MPA and SPA. It reuses all of the login stuff that 
 1. Clone the repo `git clone git@github.com:dittonjs/2610DjangoViteStarter.git <your-new-project-name>`. Replace `<your-new-project-name>` with the name you want give to your project.
 2. Open the pyproject.toml file and change the `name` property. You should use `-` to separate words in your name for this property.
 
+## Demo Video
+[Demo](https://github.com/NateMcKenzie/photography/assets/27901741/7aa63dfe-2579-434a-9002-8ffb27376d9d)
+
 ## Initial Setup
 1. Change the name property in the `pyproject.toml` file to be something unique to your project.
 1. In the root directory, install the python dependencies `poetry install`
