@@ -14,8 +14,8 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.decorators import login_required
 from .models import ReservationRequest, ReservationConfirmed
 
-FILE_EXTENSION = ".jpg"
-THUMBNAIL_PATH = "thumbnails/"
+FILE_EXTENSION = os.environ.get("FILE_EXTENSION", ".jpg")
+THUMBNAIL_PATH = os.environ.get("THUMBNAIL_PATH", "thumbnails/")
 VAULT_PATH = os.environ.get("VAULT_PATH", "")
 SAMPLE_PATH = os.environ.get("SAMPLE_PATH", "")
 TMP_PATH = os.environ.get("TMP_PATH", "")
