@@ -12,6 +12,6 @@ urlpatterns = [
     path('image/<int:id>/<str:img>/thumb/',view=views.get_thumbnail,name="Get Thumbnail"),
     path('zip/',view=views.zip,name="Zip"),
     path('sampleVault/',view=views.get_sample_vault, name="Get Sample Vault"),
-    path('sample/<str:img>', view=views.getSample, name= "Get Sample"),
+    path('sample/<str:img>/', view=views.getSample, name= "Get Sample"),
     path("icon/", view=views.get_icon, name="Icon"),
 ]
